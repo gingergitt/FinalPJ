@@ -43,7 +43,7 @@ public class ConnectDB {
             if (rs.next()) {
                 returns = "이미 존재하는 아이디 입니다.";
             } else {
-                sql2 = "INSERT INTO USERS VALUES(?,?)";
+                sql2 = "INSERT INTO USERS VALUES(?,?,?,?,?,?,?)";
                 pstmt2 = conn.prepareStatement(sql2);
                 pstmt2.setString(1, id);
                 pstmt2.setString(2, pwd);

@@ -22,7 +22,8 @@
  	System.out.println(email);
  	System.out.println(agree);
 	
-	
+ 	String results = connectDB.connectionDB("id01", "1234","24","F","010-1111-1234",
+ 			"id01@gmail.com","y");
    //if(id.equals("rain483") && pwd.equals("1234")) {
 	//	out.print("참 true");
 	//} else {
@@ -30,7 +31,7 @@
 	//}
 
 
-   //System.out.println(returns);
+   System.out.println("요청결과:"+results);
    
 
    // 안드로이드로 전송
