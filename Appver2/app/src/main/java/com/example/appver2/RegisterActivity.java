@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.QuickContactBadge;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -31,7 +30,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
 
 public class RegisterActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
@@ -73,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText emailText = (EditText) findViewById(R.id.emailText);
         final EditText phone = (EditText) findViewById(R.id.Phone);
         final Button registerbutton = findViewById(R.id.registerButton);
-        Button validateButton = (Button) findViewById(R.id.validateButton);
+
         Button registerButton = (Button) findViewById(R.id.registerButton);
 
 // ---------------------------------------------------------------------------------------------------------
@@ -105,85 +103,44 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.d("-----", usergender);
             }
         });
-
-        //ID검증(CheckID)
-
-        validateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String userid = idText.getText().toString();
-                if (validate) {
-                    RegisterTask registerTask = new RegisterTask();
-                    registerTask.execute();
-
-                    dialog.setMessage("OK");
-
-                    dialog.show();
-
-                    return;//검증 완료
-                }
-                //ID 값을 입력하지 않았다면
-                if (userid.equals("")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                    dialog = builder.setMessage("ID is empty")
-                            .setPositiveButton("OK", null)
-                            .create();
-                    dialog.show();
-                    return;
-                }
-
-
-            }
-        });
-
-// ----------------------------------------------------------------------
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonResponse = new JSONObject(response);
-                    boolean success = jsonResponse.getBoolean("success");
-                    if (success) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                        dialog = builder.setMessage("사용할 수 있는 아이디입니다.")
-                                .setPositiveButton("확인", null)
-                                .create();
-                        dialog.show();
-                        idText.setEnabled(false);
-                        validate = true;
-                        idText.setBackgroundColor(getResources().getColor(R.color.colorGray));
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                        dialog = builder.setMessage("사용할 수 없는 아이디입니다.")
-                                .setNegativeButton("확인", null)
-                                .create();
-                        dialog.show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        ValidateRequest validateRequest = new ValidateRequest(userid, responseListener);
-        RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-        queue.add(validateRequest);
-    //}
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+//        //ID검증(CheckID)
+//
+//        validateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String userid = idText.getText().toString();
+//                if (validate) {
+//
+//                    RegisterTask registerTask = new RegisterTask();
+//                    registerTask.execute();
+//
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+//                    dialog = builder.setMessage("사용할 수 있는 ID입니다.")
+//                            .setPositiveButton("OK", null)
+//                            .create();
+//                    dialog.show();
+//
+//                    return;//검증 완료
+//                }
+//
+//
+//                //ID 값을 입력하지 않았다면
+//                if (userid.equals("")) {
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+//                    dialog = builder.setMessage("ID is empty")
+//                            .setPositiveButton("OK", null)
+//                            .create();
+//                    dialog.show();
+//                    return;
+//                }
+//
+//
+//            }
+//        });
 
 
         //Register(회원가입) 버튼이 눌렸을 때
@@ -198,14 +155,18 @@ public class RegisterActivity extends AppCompatActivity {
                 String userphone = phone.getText().toString();
                 String useremail = emailText.getText().toString();
 
-                //ID 중복체크를 했는지 확인함
-                if(!validate){
+
+                //ID 중복체크 하기
+                if(userid.equals(userid)){
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                    dialog = builder.setMessage("ID 중복체크를 눌러주세요!")
+                    dialog = builder.setMessage("이미 사용중인 아이디입니다.")
                             .setNegativeButton("OK", null)
                             .create();
                     dialog.show();
                     return;
+                }else {
+                    RegisterTask registerTask = new RegisterTask();
+                    registerTask.execute();
                 }
 
 
@@ -220,7 +181,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "전화번호를 입력하세요!", Toast.LENGTH_LONG).show();
                 }else if(useremail==null) {
                     Toast.makeText(getApplicationContext(), "이메일을 입력하세요!", Toast.LENGTH_LONG).show();
-                }else if(checkBox1.isChecked() == false &&
+                }
+                else if(checkBox1.isChecked() == false &&
                 checkBox2.isChecked() == false &&
                 checkBox3.isChecked() == false &&
                 checkBox4.isChecked() == false &&
@@ -257,8 +219,8 @@ public class RegisterActivity extends AppCompatActivity {
                 String sendMsg, receiveMsg;
 
                 @Override
-                // doInBackground의 매개값이 문자열 배열인데요. 보낼 값이 여러개일 경우를 위해 배열로 합니다.
                 protected String doInBackground(String... strings) {
+
                     sendMsg = "id="+userid+"&pwd="+userpwd+"&age="+userage+"&gender="+usergender
                 +"&phone="+userphone+"&email="+useremail+"&agree="+useragree;
                     try {

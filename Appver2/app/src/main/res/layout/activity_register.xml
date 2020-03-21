@@ -58,7 +58,7 @@
 
                     <EditText
                         android:id="@+id/idText"
-                        android:layout_width="190dp"
+                        android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginRight="10dp"
@@ -68,17 +68,6 @@
                         android:padding="10dp"
                         android:textColor="@android:color/black"
                         android:textColorHint="@android:color/darker_gray" />
-
-                    <Button
-                        android:id="@+id/validateButton"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:background="@color/colorPrimaryDark"
-                        android:text="Check ID"
-                        android:textColor="#ffffff"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
 
 
                 </LinearLayout>

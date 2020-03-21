@@ -21,14 +21,46 @@ public class ConnectDB {
     
 
     Connection conn = null;
+    Connection conn2 = null;
+    
     PreparedStatement pstmt = null;
     PreparedStatement pstmt2 = null;
+    PreparedStatement pstmt3 = null;
     ResultSet rs = null;
+    ResultSet rs2 = null;
 
     String sql = "";
     String sql2 = "";
+    String sql3 = "";
     String returns = "aaaaaaaaaa";
+    String returns2 = "bbbbbbbbbbb";
 
+    
+    public String conncetionDB2 (String id) {
+         try {
+        	 Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn2 = DriverManager.getConnection(jdbcUrl, userId, userPw);
+			sql = "SELECT USERID FROM USERS WHERE USERID = ?";
+			pstmt3 = conn2.prepareStatement(sql3);
+			pstmt3.setString(1, id);
+			rs2 = pstmt3.executeQuery();
+            if (rs.next()) {
+                returns2 = "이미 사용중인 아이디입니다..";
+                
+            } else {
+                sql2 = "INSERT INTO USERS VALUES(?)";
+                pstmt3 = conn2.prepareStatement(sql2);
+                pstmt3.setString(1, id);
+                pstmt3.executeUpdate();
+                returns2 = "사용 가능한 아이디입니다.";
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return returns2;
+    	
+    }
     public String connectionDB(String id, String pwd, String age, String gender, String phone,String email,
     		String agree) {
         try {
@@ -42,6 +74,7 @@ public class ConnectDB {
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 returns = "이미 존재하는 아이디 입니다.";
+                
             } else {
                 sql2 = "INSERT INTO USERS VALUES(?,?,?,?,?,?,?)";
                 pstmt2 = conn.prepareStatement(sql2);
