@@ -30,11 +30,12 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class RegisterActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
 
-
+    Button registerButton;
     private String userid;
     private String userpwd;
     private String usergender;
@@ -59,20 +60,21 @@ public class RegisterActivity extends AppCompatActivity {
         try {
             res = task.execute("id01", "1234", "24", "F", "010-1111-1234",
                     "id01@gmail.com", "y").get();
+
             Log.i("------------리턴 값", res);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        final EditText idText = (EditText) findViewById(R.id.idText);
+        EditText idText = (EditText) findViewById(R.id.idText);
         final EditText passwordText = (EditText) findViewById(R.id.passwordText);
         final EditText ageText = findViewById(R.id.ageText);
         final EditText emailText = (EditText) findViewById(R.id.emailText);
         final EditText phone = (EditText) findViewById(R.id.Phone);
-        final Button registerbutton = findViewById(R.id.registerButton);
+        Button registerButton = findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(registerListener);
 
-        Button registerButton = (Button) findViewById(R.id.registerButton);
 
 // ---------------------------------------------------------------------------------------------------------
         final RadioGroup genderGroup = (RadioGroup) findViewById(R.id.genderGroup);
@@ -106,174 +108,187 @@ public class RegisterActivity extends AppCompatActivity {
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
-
-//        //ID검증(CheckID)
+// *******************************************************************************************
+        //Register(회원가입) 버튼이 눌렸을 때
+        //빈 공간 체크, 가입 완료 시 로그인 화면으로 가도록 함.
 //
-//        validateButton.setOnClickListener(new View.OnClickListener() {
+//        registerButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                String userid = idText.getText().toString();
-//                if (validate) {
+//                String userpwd = passwordText.getText().toString();
+//                String userage = ageText.getText().toString();
+//                String userphone = phone.getText().toString();
+//                String useremail = emailText.getText().toString();
 //
-//                    RegisterTask registerTask = new RegisterTask();
-//                    registerTask.execute();
 //
+//                //ID 중복체크 하기
+//                if(userid.equals(idText)){
 //                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-//                    dialog = builder.setMessage("사용할 수 있는 ID입니다.")
-//                            .setPositiveButton("OK", null)
+//                    dialog = builder.setMessage("이미 사용중인 아이디입니다.")
+//                            .setNegativeButton("OK", null)
 //                            .create();
 //                    dialog.show();
-//
-//                    return;//검증 완료
-//                }
-//
-//
-//                //ID 값을 입력하지 않았다면
-//                if (userid.equals("")) {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-//                    dialog = builder.setMessage("ID is empty")
-//                            .setPositiveButton("OK", null)
-//                            .create();
-//                    dialog.show();
+//                    Log.e("--------","아이디중복체크 확인");
 //                    return;
+//                }else {
+////                    RegisterTask registerTask = new RegisterTask();
+////                    registerTask.execute();
+//                    Log.e("--------","아이디 확인 ");
 //                }
 //
+//
+//                //빈칸이 있을 경우 토스트메시지
+//                if(userid==null) {
+//                    Toast.makeText(getApplicationContext(), "ID를 입력하세요!", Toast.LENGTH_LONG).show();
+//                }else if(userpwd==null) {
+//                    Toast.makeText(getApplicationContext(), "비밀번호를 입력하세요!", Toast.LENGTH_LONG).show();
+//                }else if(userage==null) {
+//                    Toast.makeText(getApplicationContext(), "나이를 입력하세요!", Toast.LENGTH_LONG).show();
+//                }else if(userphone==null) {
+//                    Toast.makeText(getApplicationContext(), "전화번호를 입력하세요!", Toast.LENGTH_LONG).show();
+//                }else if(useremail==null) {
+//                    Toast.makeText(getApplicationContext(), "이메일을 입력하세요!", Toast.LENGTH_LONG).show();
+//                }
+////                else if(checkBox1.isChecked() == false &&
+////                checkBox2.isChecked() == false &&
+////                checkBox3.isChecked() == false &&
+////                checkBox4.isChecked() == false &&
+////                checkBox5.isChecked() == false) {
+////                    Toast.makeText(getApplicationContext(),"관심분야를 하나이상 체크해주세요!",Toast.LENGTH_LONG);
+////                }
+//                // 비밀번호 확인
+//                if(userpwd.equals(passwordText)) {
+//                    //pwd 정상 확인시
+//                    RegisterTask registerTask = new RegisterTask();
+//                   registerTask.execute();
+//
+//                }else {
+//                   Log.e("--------","패스워드 불일치");
+//                }
+//
+//                //
+////                JSONObject jsonObject = new JSONObject();
 //
 //            }
 //        });
 
-
-        //Register(회원가입) 버튼이 눌렸을 때
-        //빈 공간 체크, 가입 완료 시 로그인 화면으로 가도록 함.
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String userid = idText.getText().toString();
-                String userpwd = passwordText.getText().toString();
-                String userage = ageText.getText().toString();
-                String userphone = phone.getText().toString();
-                String useremail = emailText.getText().toString();
-
-
-                //ID 중복체크 하기
-                if(userid.equals(userid)){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                    dialog = builder.setMessage("이미 사용중인 아이디입니다.")
-                            .setNegativeButton("OK", null)
-                            .create();
-                    dialog.show();
-                    return;
-                }else {
-                    RegisterTask registerTask = new RegisterTask();
-                    registerTask.execute();
-                }
-
-
-                //빈칸이 있을 경우 토스트메시지
-                if(userid==null) {
-                    Toast.makeText(getApplicationContext(), "ID를 입력하세요!", Toast.LENGTH_LONG).show();
-                }else if(userpwd==null) {
-                    Toast.makeText(getApplicationContext(), "비밀번호를 입력하세요!", Toast.LENGTH_LONG).show();
-                }else if(userage==null) {
-                    Toast.makeText(getApplicationContext(), "나이를 입력하세요!", Toast.LENGTH_LONG).show();
-                }else if(userphone==null) {
-                    Toast.makeText(getApplicationContext(), "전화번호를 입력하세요!", Toast.LENGTH_LONG).show();
-                }else if(useremail==null) {
-                    Toast.makeText(getApplicationContext(), "이메일을 입력하세요!", Toast.LENGTH_LONG).show();
-                }
-                else if(checkBox1.isChecked() == false &&
-                checkBox2.isChecked() == false &&
-                checkBox3.isChecked() == false &&
-                checkBox4.isChecked() == false &&
-                checkBox5.isChecked() == false) {
-                    Toast.makeText(getApplicationContext(),"관심분야를 하나이상 체크해주세요!",Toast.LENGTH_LONG);
-                }
-                // 비밀번호 확인
-                if(userpwd.equals(passwordText)) {
-                    //pwd 정상 확인시
-                    RegisterTask registerTask = new RegisterTask();
-                   registerTask.execute();
-
-                }else {
-                   Log.e("--------","패스워드 불일치");
-                }
-
-                //
-//                JSONObject jsonObject = new JSONObject();
-
-            }
-        });
-
-
-
-
+// ***************************************************************************************
 
 
     }//onCreate
 
 
-            class RegisterTask extends AsyncTask<String, Void, String> {
+    class RegisterTask extends AsyncTask<String, Void, String> {
 
 
-                String sendMsg, receiveMsg;
+        String sendMsg, sendMsg2, receiveMsg;
 
-                @Override
-                protected String doInBackground(String... strings) {
 
-                    sendMsg = "id="+userid+"&pwd="+userpwd+"&age="+userage+"&gender="+usergender
-                +"&phone="+userphone+"&email="+useremail+"&agree="+useragree;
+        @Override
+        protected String doInBackground(String... strings) {
+
+//                    sendMsg = "id="+userid+"&pwd="+userpwd+"&age="+userage+"&gender="+usergender
+//                +"&phone="+userphone+"&email="+useremail+"&agree="+useragree;
+
+
+            try {
+                String str;
+                URL url = new URL("http://192.168.0.20/oracledb/androidDB.jsp");
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
+
+                conn.setDoInput(true);
+                conn.connect();
+                /* 안드로이드 -> 서버 파라메터값 전달 */
+
+                OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
+                OutputStreamWriter osw2 = new OutputStreamWriter(conn.getOutputStream());
+                sendMsg = "id=" + strings[0] + "&pwd=" + strings[1] + "&age=" + strings[2] + "&gender=" +
+                        strings[3] + "$phone=" + strings[4] + "&email=" + strings[5] + "&agree=" + strings[6];
+
+               // sendMsg2 = "id="+strings[0];
+
+//                        if(sendMsg.equals("androidDB")){
+//                            sendMsg = "id="+strings[0]+"&pwd="+strings[1]+"&age="+strings[2]+"&gender="+
+//                          strings[3]+"$phone="+strings[4]+"&email="+strings[5]+"&agree="+strings[6];
+//                        }else if(sendMsg.equals("vision_list")) {
+//                            sendMsg = "&id="+strings[0];
+//                        }
+
+                osw.write(sendMsg);
+                //osw2.write(sendMsg2);
+                osw.flush();
+                osw.close();
+
+                /* 서버 -> 안드로이드 파라메터값 전달 */
+                //jsp와 통신이 정상적으로 되었을 때 할 코드들입니다.
+                if (conn.getResponseCode() == conn.HTTP_OK) {
+                    InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
+                    BufferedReader reader = new BufferedReader(tmp);
+                    StringBuffer buffer = new StringBuffer();
+                    //jsp에서 보낸 값을 받는다.
+                    while ((str = reader.readLine()) != null) {
+                        buffer.append(str);
+                    }
+                    receiveMsg = buffer.toString();
+
+                } else {
+                    Log.i("통신 결과", conn.getResponseCode() + "에러");
+                    // 통신이 실패했을 때 실패한 이유를 알기 위해 로그를 찍습니다.
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //jsp로부터 받은 리턴 값입니다.
+            return receiveMsg;
+        }
+    }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 회원가입 버튼 눌렀을 때 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //Register(회원가입) 버튼이 눌렸을 때
+    //빈 공간 체크, 가입 완료 시 로그인 화면으로 가도록 함.
+
+    View.OnClickListener registerListener = new View.OnClickListener() {
+
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.registerButton: //register눌렀을 때
+                    String id = userid.getText().toString();
+
                     try {
-                        String str;
-                        URL url = new URL("http://70.12.113.248/oracledb/androidDB.jsp"
+                        String result  = new RegisterTask().execute(userid,userpwd,"RegisterOK").get();
 
-
-                        );
-
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                        conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
-
-                        conn.setDoInput(true);
-                        conn.connect();
-
-                        /* 안드로이드 -> 서버 파라메터값 전달 */
-
-                        OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
-
-                        osw.write(sendMsg);
-                        osw.flush();
-                        osw.close();
-
-                        /* 서버 -> 안드로이드 파라메터값 전달 */
-                        //jsp와 통신이 정상적으로 되었을 때 할 코드들입니다.
-                        if (conn.getResponseCode() == conn.HTTP_OK) {
-                            InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
-                            BufferedReader reader = new BufferedReader(tmp);
-                            StringBuffer buffer = new StringBuffer();
-                            //jsp에서 보낸 값을 받는다.
-                            while ((str = reader.readLine()) != null) {
-                                buffer.append(str);
-                            }
-                            receiveMsg = buffer.toString();
-
-                        } else {
-                            Log.i("통신 결과", conn.getResponseCode() + "에러");
-                            // 통신이 실패했을 때 실패한 이유를 알기 위해 로그를 찍습니다.
+                        if(result.equals("id")) {
+                            Toast.makeText(RegisterActivity.this,"이미 존재하는 아이디입니다.",Toast.LENGTH_SHORT).show();
+                            userid.setTest("");
+                            userpwd.setText("");
+                        } else if(result.equals("ok")) {
+                            userid.setText("");
+                            userpwd.setText("");
+                            Toast.makeText(RegisterActivity.this,"회원가입을 축하합니다.",Toast.LENGTH_SHORT).show();
                         }
 
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    //jsp로부터 받은 리턴 값입니다.
-                    return receiveMsg;
-                }
+
+
             }
-
-
-
+        }
+    };
 }
+
+
+
+
 
 
