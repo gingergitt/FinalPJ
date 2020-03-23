@@ -14,204 +14,73 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.example.appver2.MainActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appver2.R;
 import com.example.appver2.RegisterActivity;
 
 import org.json.JSONObject;
-
-public class LoginActivity extends Activity {
+//필요기능 1: 이메일? 아이디? 검증 -> 아이디가 없거나 일치하지 않으면 토스트 메시지 보내고 다시 입력하게 함
+// 2: 비밀번호 일치하는지 확인 -> 일치하지 않으면 다시 입력하도록 함
+// 3: 회원가입 버튼 만들어서 회원가입 페이지로 (인텐트) 넘김
+// 4 : 로그인 성공 시 메인으로 넘어가도록 함
+// 순서 : 메인로고 (onPreExecute) -> 로그인 액티비티 -> 성공시 메인 or 레지스터 화면 -> 레지스터 화면에서 가입 성공 시 메인 -> 메인 구상하기 .
+public class LoginActivity extends AppCompatActivity {
 
     private AlertDialog dialog;
     // UI references.
     private ImageView logo;
-    private EditText mEmailView;
-    private EditText mPasswordView;
+    private EditText idbt, pwdbt, ckbt;  //ckbt -> pwd체크
+    String sidbt, spwdbt, sckbt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Set up the login form.
-
+        idbt = findViewById(R.id.idbt);
+        pwdbt = findViewById(R.id.pwdbt);
         logo = findViewById(R.id.logo);
-        mEmailView = (EditText) findViewById(R.id.username);
-        mPasswordView = (EditText) findViewById(R.id.password);
-
-        // event handler
-
-        mEmailView.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if(id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL){
-                    return true;
-                }
-                return false;
-            }
-
-        });
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    //attemptLogin();
-
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        // Button
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.login); // sign in button
-
-        Button Register = (Button) findViewById(R.id.login2); // sign up button
-
-
-
-
-        //버튼눌리면 레지스터 페이지로 가도록 한다.
-        Register.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-
-                LoginActivity.this.startActivity(registerIntent);
-
-
-            }
-        });
-
-
-
-
-        // event handler
-
-        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                String userID = mEmailView.getText().toString();
-
-                String userPassword = mPasswordView.getText().toString();
-
-
-
-                Response.Listener<String> responseLisner = new Response.Listener<String>(){
-
-
-
-
-
-
-                    @Override
-
-                    public void onResponse(String response) {
-
-                        try{
-
-                            JSONObject jsonResponse = new JSONObject(response);
-
-                            boolean success = jsonResponse.getBoolean("success");
-
-
-
-                            if(success){
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-
-                                dialog = builder.setMessage("로그인에 성공했습니다")
-
-                                        .setPositiveButton("확인", null)
-
-                                        .create();
-
-                                dialog.show();
-
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
-                                LoginActivity.this.startActivity(intent);
-
-                                finish();
-
-                            }else {
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-
-                                dialog = builder.setMessage("계정을 다시 확인하세요")
-
-                                        .setNegativeButton("다시시도", null)
-
-                                        .create();
-
-                                dialog.show();
-
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
-                                LoginActivity.this.startActivity(intent);
-
-                                finish();
-
-                            }
-
-
-
-                        }catch (Exception e){
-
-                            e.printStackTrace();
-
-                        }
-
-                    }
-
-                };
-
-
-
-               // LoginRequest loginRequest = new LoginRequest(userID, userPassword, responseLisner);
-
-                //RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-
-                //queue.add(loginRequest);
-
-
-
-            }
-
-        });
-
 
 
     }
 
+    public void signbt(View v) {
+        //버튼 누르면 동작
+        sidbt = idbt.getText().toString();
+        spwdbt = pwdbt.getText().toString();
+        sckbt = ckbt.getText().toString();
 
+        //패스워드 체크하기
+        if (spwdbt.equals(sckbt)) {
+            //정상일경우
+//            RegisterActivity.RegisterTask rt = new RegisterActivity.RegisterTask();
+//
+//            rt.execute();
 
-    @Override
-
-    protected void onStop() {
-
-        super.onStop();
-
-        if (dialog != null) {//다이얼로그가 켜져있을때 함부로 종료가 되지 않게함
-
-            dialog.dismiss();
-
-            dialog = null;
-
+        } else {
+            //불일치할 경우
+            pwdbt.setText("");
+            ckbt.setText("");
+            Toast.makeText(getApplicationContext(), "비밀번호가 틀렸습니다. 다시 입력하세요.", Toast.LENGTH_LONG).show();
         }
+
     }
 
 
+    public void regibt(View v) {
+        if (v.getId() == R.id.regibt) {
+            Intent intent =
+                    new Intent(getApplicationContext(),
+                            RegisterActivity.class);
 
+            startActivity(intent);
+        }
 
-
+    }
 }
 
 

@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            intent.putExtra("num",101);
             startActivity(intent);
         } else if (v.getId() == R.id.button2) {
             Intent intent =
