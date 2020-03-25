@@ -1,5 +1,6 @@
 package com.example.appver2;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.appver2.ui.login.LoginActivity;
 
 import org.json.JSONObject;
 
@@ -75,19 +77,16 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText phone = (EditText) findViewById(R.id.Phone);
         Button registerButton = findViewById(R.id.registerButton);
 
-
+        //default값 설정
         useragree = "Y";
-
         usergender = "F";
 
 
 // ---------------------------------------------------------------------------------------------------------
         final RadioGroup genderGroup = (RadioGroup) findViewById(R.id.genderGroup);
         final int genderGroupID = genderGroup.getCheckedRadioButtonId();
-//        usergender = ((RadioButton) findViewById(genderGroupID)).getText().toString();//초기화 값을 지정해줌
         RadioGroup AdGroup = (RadioGroup) findViewById(R.id.AdGroup);
         int AdGroupID = AdGroup.getCheckedRadioButtonId();
-//        useragree = ((RadioButton) findViewById(AdGroupID)).getText().toString();
 // ----------------------------------------------------------------------------------------------------------
         //(수신동의) 버튼이 눌리면 값을 바꿔주는 부분
         AdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -160,6 +159,9 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"회원가입이 완료되었습니다.",Toast.LENGTH_LONG).show();
                 finish(); //다시 메인으로 돌아가는지??
 //                Log.e("--------","아이디 확인x ");
+
+//                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                startActivityForResult(intent,200);
 
             }
         });

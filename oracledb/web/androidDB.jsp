@@ -1,3 +1,4 @@
+<%@page import="java.net.HttpURLConnection"%>
 <%@page import="com.db.ConnectDB"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6,13 +7,13 @@
 	
    String id = request.getParameter("id");
    String pwd = request.getParameter("pwd");
-   String age = request.getParameter("age");
+   int age = Integer.parseInt(request.getParameter("age"));
    
    String gender = request.getParameter("gender");
    String phone = request.getParameter("phone");
    String email = request.getParameter("email");
    String agree = request.getParameter("agree");
-
+	String result= connectDB.connectionDB(id,pwd,age,gender,phone,email,agree);
  	System.out.println("---------------------");
  	System.out.println(id);
  	System.out.println(pwd);
@@ -21,19 +22,38 @@
  	System.out.println(phone);
  	System.out.println(email);
  	System.out.println(agree);
+ 	System.out.println(result);
 	
- 	String results = connectDB.connectionDB("id01", "1234","24","F","010-1111-1234",
- 			"id01@gmail.com","y");
-   //if(id.equals("rain483") && pwd.equals("1234")) {
-	//	out.print("참 true");
-	//} else {
-	//	out.print("거짓 false");
-	//}
-
-
-   System.out.println("요청결과:"+results);
+ 	 out.print(result);
+ 	 
    
 
    // 안드로이드로 전송
-  	out.println(results);
+  	//out.println(results);
+   
+   
+   //HttpURLConnection conn2 = (HttpURLConnection) http
+   
+   // HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    //conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+    //conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
+
+    //conn.setDoInput(true);
+    //conn.connect();
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 %>
