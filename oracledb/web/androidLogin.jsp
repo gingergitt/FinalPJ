@@ -12,7 +12,7 @@ LoginDB loginDB = LoginDB.getInstance();
  	System.out.println("---------------------");
  	System.out.println(id);
  	System.out.println(pwd);
- 	System.out.println(result);
+ 	//System.out.println(result);
  
 
  	if(id.equals("id") && pwd.equals("pwd")) {

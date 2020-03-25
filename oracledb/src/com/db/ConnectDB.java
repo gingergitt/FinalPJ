@@ -19,9 +19,9 @@ public class ConnectDB {
 	}
 
 	// oracle ∞Ë¡§
-	String jdbcUrl = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
-	String userId = "NY";
-	String userPw = "NY";
+	String jdbcUrl = "jdbc:oracle:thin:@192.168.0.3:80:1521:xe";
+	String userId = "PNY";
+	String userPw = "PNY";
 
 	Connection conn = null;
 	Connection conn2 = null;

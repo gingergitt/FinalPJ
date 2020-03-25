@@ -134,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String userphone = phone.getText().toString();
                 String useremail = emailText.getText().toString();
 
-                   RegisterTask registerTask = new RegisterTask();
+                RegisterTask registerTask = new RegisterTask();
                 registerTask.setURL(userid,userpwd,Integer.parseInt(userage),userphone,useremail,usergender,useragree);
                 registerTask.execute();
                 //빈칸이 있을 경우 토스트메시지
@@ -179,7 +179,9 @@ public class RegisterActivity extends AppCompatActivity {
         public void setURL (String id, String pwd, int age,  String phone, String email,String gender,
                             String agree) {
 
-            urlstr = "http://70.12.113.248/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
+//            urlstr = "http://70.12.113.248/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
+//                    gender + "&phone=" + phone + "&email=" + email + "&agree=" + agree;
+            urlstr = "http://192.168.0.3/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
                     gender + "&phone=" + phone + "&email=" + email + "&agree=" + agree;
 
         }
@@ -233,6 +235,7 @@ public class RegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             //jsp로부터 받은 리턴 값입니다.
+
             Log.d("---------",receiveMsg);
 //            Toast.makeText(getApplicationContext() ,"회원가입완료?",Toast.LENGTH_LONG).show();
             return receiveMsg;

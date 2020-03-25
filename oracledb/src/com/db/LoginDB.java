@@ -17,9 +17,11 @@ public class LoginDB {
 	}
 
 	// oracle ∞Ë¡§
-	String jdbcUrl = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
-	String userId = "NY";
-	String userPw = "NY";
+//	String jdbcUrl = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+	String jdbcUrl = "jdbc:oracle:thin:@192.168.0.3:1521:xe";
+
+	String userId = "PNY";
+	String userPw = "PNY";
 
 	Connection conn = null;
 	Connection conn2 = null;
@@ -37,26 +39,41 @@ public class LoginDB {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(jdbcUrl, userId, userPw);
 
-			sql = "SELECT * FROM USERS WHERE USERID = ?";
+			sql = "SELECT * FROM USERS WHERE USERID = ? AND USERPWD =?";
+		
+
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pwd);
 			rs = pstmt.executeQuery();
-
+//age gender phone email agree
 			if (rs.next()) {
-//					System.out.println("rs.getString(\"userid\") "+rs.getString("userid"));
-				if (rs.getString("userid") != null && rs.getString("userpwd") == pwd) {
-					return "YY";
-
-				} else if(rs.getString("userid")== null){
-						
-				}
+				int age = Integer.parseInt(rs.getString("age"));
+				String gender = rs.getString("gender");
+				String phone = rs.getString("phone");
+				String email = rs.getString("email");
+				String agree = rs.getString("agree");
+				
+				return "YY";
+				
+//				if (rs.getString("userid") != null && rs.getString("userpwd") == pwd) {
+//					return "YY";
+//
+//				} else if(rs.getString("userid")== null){
+//						return "nulllll";
+//				}
+			} else {
+				return " NNNNNN ";
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			try {
+				if (rs != null)
+					rs.close();
+				
+				
 				if (pstmt != null)
 					pstmt.close();
 		
@@ -64,12 +81,13 @@ public class LoginDB {
 				
 					conn.close();
 			} catch(SQLException e) {
-				System.out.println("error");
+				System.out.println(e+"error");
 			}
 			
 				 
 		}
-		return "NO ID";
+		return "NN";
+		
 
 	}
 }

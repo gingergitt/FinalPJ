@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import android.text.TextUtils;
+
 import android.util.Log;
 import android.view.View;
 
@@ -35,6 +35,7 @@ import org.w3c.dom.Text;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -76,24 +77,41 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("---","login");
                 String sidbt = idbt.getText().toString();
                 String spwdbt = pwdbt.getText().toString();
-                LoginTask loginTask = new LoginTask(sidbt,spwdbt);
+                LoginTask loginTask = new LoginTask();
+                loginTask.setURL(sidbt,spwdbt);
                 loginTask.execute();
             }
         });
 
 
+        regibt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =
+                        new Intent(getApplicationContext(),
+                                MainActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
 
     }
 
-    class LoginTask extends AsyncTask<String, Void, String> {
-        String receiveMsg;
-        String urlstr;
+    public class LoginTask extends AsyncTask<String, Void, String> {
+        private String receiveMsg;
+        private String urlstr;
 
-        public LoginTask(String id, String pwd){
+
+
+        public  void setURL(String id, String pwd) {
             Log.d("---------------------","LoginTask http 연결");
-            urlstr = "http://70.12.113.248/orcledb/androidLogin.jsp?";
-            urlstr += "id="+id+"&pwd="+pwd;
+//            urlstr = "http://70.12.113.248/orcledb/androidLogin.jsp?";
+            urlstr = "http://192.168.0.20/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+
+            Log.d("----------------","usl연결 oK?");
         }
+
 
 
 
@@ -102,11 +120,12 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPreExecute() {
             Log.d("----","onPreExecute");
             progressDialog.setTitle("HTTP Connection...");
-            progressDialog.setTitle("Please Wait...");
+            progressDialog.setTitle("Please Wait...!");
 
             progressDialog.setCancelable(false);
             progressDialog.show();
-
+            Log.d("---------","dialog show");
+//            progressDialog.dismiss();
         }
 
 
@@ -114,17 +133,24 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
 
-
+            Log.d("---------","do in background 확인");
             try {
                 String str;
                 URL url = new URL(urlstr);
-
+                Log.d("---------","url  받음");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
 
                 conn.setDoInput(true);
                 conn.connect();
+
+                /* 안드로이드 -> 서버 파라메터값 전달 */
+                OutputStream outs = conn.getOutputStream();
+                outs.write(urlstr.getBytes("UTF-8"));
+                outs.flush();
+                outs.close();
+
 
                 if (conn.getResponseCode() == conn.HTTP_OK) {
                     InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
@@ -161,15 +187,9 @@ public class LoginActivity extends AppCompatActivity {
                 if(SaveSharedPreference.getUserName(LoginActivity.this).length() == 0)
                     SaveSharedPreference.setUserName(LoginActivity.this, idbt.getText().toString());
 
-                Intent intent =
-                        new Intent(getApplicationContext(),
-                                MainActivity.class);
-
-                startActivity(intent);
-
-
-            }else {
+            }else if(s.trim().equals("0")){
                 Toast.makeText(LoginActivity.this,"틀렸습니다.", Toast.LENGTH_SHORT);
+
             }
 
 

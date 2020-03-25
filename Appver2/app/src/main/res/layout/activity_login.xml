@@ -92,17 +92,6 @@
             android:textColor="#FBF6FC"
             android:textSize="18sp" />
 
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="64dp"
-            android:visibility="gone" />
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="19dp"
@@ -123,6 +112,17 @@
             android:text="@string/action_Register"
             android:textColor="#83B3D9"
             android:textSize="18sp" />
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="64dp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>
