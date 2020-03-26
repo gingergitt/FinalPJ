@@ -179,10 +179,10 @@ public class RegisterActivity extends AppCompatActivity {
         public void setURL (String id, String pwd, int age,  String phone, String email,String gender,
                             String agree) {
 
-//            urlstr = "http://70.12.113.248/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
-//                    gender + "&phone=" + phone + "&email=" + email + "&agree=" + agree;
-            urlstr = "http://192.168.0.3/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
+            urlstr = "http://70.12.113.248/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
                     gender + "&phone=" + phone + "&email=" + email + "&agree=" + agree;
+//            urlstr = "http://192.168.0.3/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
+//                    gender + "&phone=" + phone + "&email=" + email + "&agree=" + agree;
 
         }
 
@@ -223,9 +223,10 @@ public class RegisterActivity extends AppCompatActivity {
                         buffer.append(str);
                     }
                     receiveMsg = buffer.toString();
-                    Log.d("---------","에러~~");
+                    Log.d("---------","receiveMsg="+receiveMsg);
                 } else {
                     Log.i("통신 결과", conn.getResponseCode() + "에러");
+
                     // 통신이 실패했을 때 실패한 이유를 알기 위해 로그를 찍습니다.
                 }
 

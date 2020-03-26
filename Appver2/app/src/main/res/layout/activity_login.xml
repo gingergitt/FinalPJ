@@ -107,22 +107,14 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="48dp"
-            android:enabled="false"
+            android:clickable="true"
+            android:enabled="true"
             android:gravity="center"
+            android:onClick="regibt"
             android:text="@string/action_Register"
             android:textColor="#83B3D9"
             android:textSize="18sp" />
 
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="64dp"
-            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

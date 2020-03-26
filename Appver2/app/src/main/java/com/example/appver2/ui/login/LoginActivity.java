@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -40,11 +41,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-//필요기능 1: 이메일? 아이디? 검증 -> 아이디가 없거나 일치하지 않으면 토스트 메시지 보내고 다시 입력하게 함
-// 2: 비밀번호 일치하는지 확인 -> 일치하지 않으면 다시 입력하도록 함
-// 3: 회원가입 버튼 만들어서 회원가입 페이지로 (인텐트) 넘김
-// 4 : 로그인 성공 시 메인으로 넘어가도록 함
+//필요기능
+//1: id, pwd미입력시 id를 입력하세요! 토스트 띄우고 task중지
+//2: 자동로그인
+//3: ui
+//4: 로그인 시 00님 환영합니다.
 // 순서 : 메인로고 (onPreExecute) -> 로그인 액티비티 -> 성공시 메인 or 레지스터 화면 -> 레지스터 화면에서 가입 성공 시 메인 -> 메인 구상하기 .
+
+
 public class LoginActivity extends AppCompatActivity {
 
     private AlertDialog dialog;
@@ -57,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +74,10 @@ public class LoginActivity extends AppCompatActivity {
         logo = findViewById(R.id.logo);
         loginbt = findViewById(R.id.loginbt);
         regibt = findViewById(R.id.regibt);
-        loading =  findViewById(R.id.loading);
+//        loading =  findViewById(R.id.loading);
         progressDialog = new ProgressDialog(this);
+
+
 
         loginbt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,23 +86,36 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("---","login");
                 String sidbt = idbt.getText().toString();
                 String spwdbt = pwdbt.getText().toString();
+
+                if(idbt == null) {
+                    Toast.makeText(getApplicationContext(),"id를 입력해주세요.",Toast.LENGTH_SHORT).show();
+                    finish();                   //task 실행 안되도록 하기 .
+                }else if (pwdbt == null) {
+                    Toast.makeText(getApplicationContext(),"pwd를 입력해주세요.",Toast.LENGTH_SHORT).show();
+
+                } else if (idbt == null && pwdbt == null ) {
+                    Toast.makeText(getApplicationContext(),"id와 pwd를 입력해주세요.",Toast.LENGTH_SHORT).show();
+
+                }
                 LoginTask loginTask = new LoginTask();
                 loginTask.setURL(sidbt,spwdbt);
                 loginTask.execute();
             }
+
         });
 
 
-        regibt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =
-                        new Intent(getApplicationContext(),
-                                MainActivity.class);
 
-                startActivity(intent);
-            }
-        });
+//        regibt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent =
+//                        new Intent(getApplicationContext(),
+//                                MainActivity.class);
+//
+//                startActivity(intent);
+//            }
+//        });
 
 
     }
@@ -106,8 +128,9 @@ public class LoginActivity extends AppCompatActivity {
 
         public  void setURL(String id, String pwd) {
             Log.d("---------------------","LoginTask http 연결");
-//            urlstr = "http://70.12.113.248/orcledb/androidLogin.jsp?";
-            urlstr = "http://192.168.0.20/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+            urlstr = "http://70.12.113.248/oracledb/androidLogin.jsp?id="+id + "&pwd=" + pwd;
+
+//            urlstr = "http://192.168.0.20/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
 
             Log.d("----------------","usl연결 oK?");
         }
@@ -137,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 String str;
                 URL url = new URL(urlstr);
-                Log.d("---------","url  받음");
+                Log.d("---------","url="+urlstr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
@@ -145,11 +168,11 @@ public class LoginActivity extends AppCompatActivity {
                 conn.setDoInput(true);
                 conn.connect();
 
-                /* 안드로이드 -> 서버 파라메터값 전달 */
-                OutputStream outs = conn.getOutputStream();
-                outs.write(urlstr.getBytes("UTF-8"));
-                outs.flush();
-                outs.close();
+//                /* 안드로이드 -> 서버 파라메터값 전달 */
+//                OutputStream outs = conn.getOutputStream();
+//                outs.write(urlstr.getBytes("UTF-8"));
+//                outs.flush();
+//                outs.close();
 
 
                 if (conn.getResponseCode() == conn.HTTP_OK) {
@@ -172,8 +195,8 @@ public class LoginActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //jsp로부터 받은 리턴 값입니다.
-            Log.d("---------",receiveMsg);
+
+            Log.d("---------","receiveMsg="+receiveMsg);
 //            Toast.makeText(getApplicationContext() ,"회원가입완료?",Toast.LENGTH_LONG).show();
             return receiveMsg;
         }
@@ -181,23 +204,54 @@ public class LoginActivity extends AppCompatActivity {
         // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         @Override //끝날때
         protected void onPostExecute(String s) {
-            progressDialog.dismiss();
+
+           Log.d("=======","s="+s);
 
             if(s.trim().equals("1")) {
+                Log.d("=======","s=1 :"+s);
                 if(SaveSharedPreference.getUserName(LoginActivity.this).length() == 0)
                     SaveSharedPreference.setUserName(LoginActivity.this, idbt.getText().toString());
+                Toast.makeText(LoginActivity.this, idbt.getText().toString()+"님 환영합니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,"메인페이지로 이동합니다!", Toast.LENGTH_LONG).show();
+                //2초후 메인페이지 이동
+                Handler hand = new Handler();
+                hand.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(i);
+                        finish();
+
+
+                    }
+                },2000);
+
 
             }else if(s.trim().equals("0")){
-                Toast.makeText(LoginActivity.this,"틀렸습니다.", Toast.LENGTH_SHORT);
+                Log.d("=======","s=0 :"+s);
+                Toast.makeText(LoginActivity.this,"ID나 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+
 
             }
+            progressDialog.dismiss();
+
+
+
 
 
         }
 
     }
+    //회원가입 창으로 이동함
+    public void regibt(View v) {
+        if(v.getId() == R.id.regibt) {
+            Intent intent =
+                    new Intent(getApplicationContext(),
+                            RegisterActivity.class);
 
-
+            startActivity(intent);
+        }
+    }
 
     }
 
