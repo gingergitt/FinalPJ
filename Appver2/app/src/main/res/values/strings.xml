@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Appver2</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token : %s</string>
+
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
