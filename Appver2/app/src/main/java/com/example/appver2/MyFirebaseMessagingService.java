@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,6 +19,11 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Collections;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -57,6 +63,44 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(0, mBuilder.build());
 
     }
+
+
+    private void sendPushNotification(JSONObject json) {
+        //optionally we can display the json into log
+        Log.e(TAG, "Notification JSON" + json.toString());
+
+        try {
+            JSONObject data = json.getJSONObject("data");
+            //parsing json data
+
+            String title = data.getString("data");
+            String message = data.getString("message");
+            // String imageUrl = data.getString("Image");
+
+            list.add(message);
+            Collections.reverse(list);
+            System.out.println(list);
+
+            MyNotificationManager mNotificationManager = new MyNotificationManager(getApplicationContext());
+
+            Intent intent = new Intent(getApplicationContext(),MapActivity.class);
+//            //if there is no image
+//            if(imageUrl.equals("null")){
+//                //displaying small notification
+//                mNotificationManager.showSmallNotification(title, message, intent);
+//            }else{
+//                //if there is an image
+//                //displaying a big notification
+//                mNotificationManager.showBigNotification(title, message, imageUrl, intent);
+//            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Json Exception: " + e.getMessage());
+        } catch (Exception e) {
+            Log.e(TAG, "Exception: " + e.getMessage());
+        }
+
+    }
+
 
     @Override
     public void onNewToken(@NonNull String s) {

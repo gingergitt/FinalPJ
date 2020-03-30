@@ -34,4 +34,9 @@
         android:layout_marginStart="24dp"
         android:text="TextView" />
 
+    <ListView
+        android:id="@+id/notification_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>
