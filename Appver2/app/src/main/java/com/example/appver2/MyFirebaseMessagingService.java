@@ -65,41 +65,41 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    private void sendPushNotification(JSONObject json) {
-        //optionally we can display the json into log
-        Log.e(TAG, "Notification JSON" + json.toString());
-
-        try {
-            JSONObject data = json.getJSONObject("data");
-            //parsing json data
-
-            String title = data.getString("data");
-            String message = data.getString("message");
-            // String imageUrl = data.getString("Image");
-
-            list.add(message);
-            Collections.reverse(list);
-            System.out.println(list);
-
-            MyNotificationManager mNotificationManager = new MyNotificationManager(getApplicationContext());
-
-            Intent intent = new Intent(getApplicationContext(),MapActivity.class);
-//            //if there is no image
-//            if(imageUrl.equals("null")){
-//                //displaying small notification
-//                mNotificationManager.showSmallNotification(title, message, intent);
-//            }else{
-//                //if there is an image
-//                //displaying a big notification
-//                mNotificationManager.showBigNotification(title, message, imageUrl, intent);
-//            }
-        } catch (JSONException e) {
-            Log.e(TAG, "Json Exception: " + e.getMessage());
-        } catch (Exception e) {
-            Log.e(TAG, "Exception: " + e.getMessage());
-        }
-
-    }
+//    private void sendPushNotification(JSONObject json) {
+//        //optionally we can display the json into log
+//        Log.e(TAG, "Notification JSON" + json.toString());
+//
+//        try {
+//            JSONObject data = json.getJSONObject("data");
+//            //parsing json data
+//
+//            String title = data.getString("data");
+//            String message = data.getString("message");
+//            // String imageUrl = data.getString("Image");
+//
+//            list.add(message);
+//            Collections.reverse(list);
+//            System.out.println(list);
+//
+//            MyNotificationManager mNotificationManager = new MyNotificationManager(getApplicationContext());
+//
+//            Intent intent = new Intent(getApplicationContext(),MapActivity.class);
+////            //if there is no image
+////            if(imageUrl.equals("null")){
+////                //displaying small notification
+////                mNotificationManager.showSmallNotification(title, message, intent);
+////            }else{
+////                //if there is an image
+////                //displaying a big notification
+////                mNotificationManager.showBigNotification(title, message, imageUrl, intent);
+////            }
+//        } catch (JSONException e) {
+//            Log.e(TAG, "Json Exception: " + e.getMessage());
+//        } catch (Exception e) {
+//            Log.e(TAG, "Exception: " + e.getMessage());
+//        }
+//
+//    }
 
 
     @Override
