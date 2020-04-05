@@ -43,10 +43,11 @@
                 android:text="내 주변"
                 android:textSize="12sp" />
 
-            <ListView
-                android:id="@+id/listview"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
     </ScrollView>
 
