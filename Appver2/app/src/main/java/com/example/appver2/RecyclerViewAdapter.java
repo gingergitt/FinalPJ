@@ -18,7 +18,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context context;
     private int lastPosition = -1;
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+
+    public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title, msg;
 
         public CustomViewHolder(View itemView) {
@@ -26,14 +27,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             // ?
             this.title = itemView.findViewById(R.id.title);
             this.msg = itemView.findViewById(R.id.message);
+            this.itemView.setOnClickListener(this);
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+
+           }
         }
     }
 
-//    public RecyclerViewAdapter(Context context, List<lst> list) {
-//        this.list = list;
-//        this.context = context;
-//    }
+    public RecyclerViewAdapter(Context context, List<lst> itemlist) {
+        this.list = itemlist;
+        this.context = context;
+    }
 
     @NonNull
     @Override

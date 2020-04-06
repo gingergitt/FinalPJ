@@ -28,7 +28,7 @@ import java.util.Set;
 public class MapActivity extends AppCompatActivity {
 
 
-    private List<RecyclerViewAdapter.lst> itemsList = new ArrayList<RecyclerViewAdapter.lst>();
+    private List<lst> itemsList = new ArrayList<lst>();
     private RecyclerViewAdapter adapter;
     RecyclerView recyclerview;
 
@@ -47,7 +47,7 @@ public class MapActivity extends AppCompatActivity {
             String[] notification = noti.split("---");
             String title = notification[0];
             String msg = notification[1];
-            RecyclerViewAdapter.lst ls = new RecyclerViewAdapter.lst();
+            lst ls = new lst();
             ls.setMsg(msg);
             ls.setTitle(title);
             itemsList.add(ls);

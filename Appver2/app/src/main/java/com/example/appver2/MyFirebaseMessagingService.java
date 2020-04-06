@@ -3,9 +3,13 @@ package com.example.appver2;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,11 +23,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Collections;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -41,11 +40,33 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, "title : " + title + " msg : " + msg);
 
+
+
+        //
+        sendNotification(title,msg);
+        Log.d(TAG, "sendNotification:"+title);
+
+    }
+
+
+    //-----------------------------------------------------------------------
+
+    private void sendNotification (String title, String msg) {
+        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("title",title); //?
+        bundle.putString("message",msg);
+        intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Log.d(TAG, "intent확인:");
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        Bitmap bmp = BitmapFactory.decodeResource(this.getResources(),R.drawable.ic_launcher_background);
+
         String channelId = "channel";
         String channelName = "Channel_name";
+        Log.d(TAG, "Channel_name:"+channelName);
         int importance = NotificationManager.IMPORTANCE_LOW;
-
-
         notificationManager = NotificationManagerCompat.from(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -59,51 +80,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(msg)
                 .setAutoCancel(true)
                 .setVibrate(new long[]{1, 1000});
-
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, mBuilder.build());
-
+        Log.d(TAG, "notify확인");
     }
 
 
-//    private void sendPushNotification(JSONObject json) {
-//        //optionally we can display the json into log
-//        Log.e(TAG, "Notification JSON" + json.toString());
-//
-//        try {
-//            JSONObject data = json.getJSONObject("data");
-//            //parsing json data
-//
-//            String title = data.getString("data");
-//            String message = data.getString("message");
-//            // String imageUrl = data.getString("Image");
-//
-//            list.add(message);
-//            Collections.reverse(list);
-//            System.out.println(list);
-//
-//            MyNotificationManager mNotificationManager = new MyNotificationManager(getApplicationContext());
-//
-//            Intent intent = new Intent(getApplicationContext(),MapActivity.class);
-////            //if there is no image
-////            if(imageUrl.equals("null")){
-////                //displaying small notification
-////                mNotificationManager.showSmallNotification(title, message, intent);
-////            }else{
-////                //if there is an image
-////                //displaying a big notification
-////                mNotificationManager.showBigNotification(title, message, imageUrl, intent);
-////            }
-//        } catch (JSONException e) {
-//            Log.e(TAG, "Json Exception: " + e.getMessage());
-//        } catch (Exception e) {
-//            Log.e(TAG, "Exception: " + e.getMessage());
-//        }
-//
-//    }
-
-
     @Override
-    public void onNewToken(@NonNull String s) {
+   public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
