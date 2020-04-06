@@ -24,38 +24,48 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     String TAG = "===";
-    String msg, title;
+    String msg, title, click_action;
     NotificationManagerCompat notificationManager;
+
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-
+        //This will give you the topic string from curl request (/topics/news)
+        Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         title = remoteMessage.getNotification().getTitle();
         msg = remoteMessage.getNotification().getBody();
-
+        // ------------- ??
+        click_action = remoteMessage.getData().get("clcikAction");
+        // ------------- ??
         Log.d(TAG, "title : " + title + " msg : " + msg);
 
-
-
         //
-        sendNotification(title,msg);
+        //This is where you get your click_action
+        // click_action추가?
+        sendNotification(title,msg,click_action);
         Log.d(TAG, "sendNotification:"+title);
-
+        Log.d(TAG, "Notification Click Action: " + remoteMessage.getNotification().getClickAction());
     }
 
 
     //-----------------------------------------------------------------------
 
-    private void sendNotification (String title, String msg) {
+    private void sendNotification (String title, String msg, String click_action) {
         Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        // intent.putExtra("title", title);
+        // intent.putExtra("message", msg);
+
         Bundle bundle = new Bundle();
         bundle.putString("title",title); //?
         bundle.putString("message",msg);
+
         intent.putExtras(bundle);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -63,12 +73,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         Bitmap bmp = BitmapFactory.decodeResource(this.getResources(),R.drawable.ic_launcher_background);
 
-        String channelId = "channel";
+
+        String channelId = "channel_id";
         String channelName = "Channel_name";
         Log.d(TAG, "Channel_name:"+channelName);
+
         int importance = NotificationManager.IMPORTANCE_LOW;
         notificationManager = NotificationManagerCompat.from(this);
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            NotificationChannel mnotify = new NotificationChannel(title,msg, importance);
+//            notificationManager.createNotificationChannel(mnotify);
+//        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
             notificationManager.createNotificationChannel(mChannel);
