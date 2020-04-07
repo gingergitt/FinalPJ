@@ -1,6 +1,7 @@
 package com.example.appver2;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(View v) {
             if (v == itemView) {
                 Toast.makeText(v.getContext(),"클릭됨.",Toast.LENGTH_LONG).show();
+                Log.d("----", "클릭됨!");
 
             }
         }

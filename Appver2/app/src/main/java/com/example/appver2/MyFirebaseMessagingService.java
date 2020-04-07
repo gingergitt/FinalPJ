@@ -30,7 +30,8 @@ import java.util.Map;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     String TAG = "===";
-    String msg, title, click_action;
+    static String msg, title;
+            String click_action;
     NotificationManagerCompat notificationManager;
 
 
@@ -42,7 +43,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         title = remoteMessage.getNotification().getTitle();
         msg = remoteMessage.getNotification().getBody();
         // ------------- ??
-        click_action = remoteMessage.getData().get("clcikAction");
+        click_action = remoteMessage.getNotification().getClickAction();
         // ------------- ??
         Log.d(TAG, "title : " + title + " msg : " + msg);
 
@@ -70,7 +71,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         Log.d(TAG, "intent확인:");
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap bmp = BitmapFactory.decodeResource(this.getResources(),R.drawable.ic_launcher_background);
 
 
@@ -79,12 +80,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Channel_name:"+channelName);
 
         int importance = NotificationManager.IMPORTANCE_LOW;
-        notificationManager = NotificationManagerCompat.from(this);
+        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            NotificationChannel mnotify = new NotificationChannel(title,msg, importance);
-//            notificationManager.createNotificationChannel(mnotify);
-//        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
             notificationManager.createNotificationChannel(mChannel);
@@ -95,8 +93,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(msg)
                 .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1, 1000});
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, mBuilder.build());
         Log.d(TAG, "notify확인");
     }
@@ -122,4 +120,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
         });
     }
+
+
+
+
 }
