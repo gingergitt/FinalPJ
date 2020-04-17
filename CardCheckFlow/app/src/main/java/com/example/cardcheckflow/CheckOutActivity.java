@@ -1,8 +1,11 @@
 package com.example.cardcheckflow;
 
+import android.annotation.SuppressLint;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +21,8 @@ import com.example.cardcheckflow.CCFragment.CCSecureCodeFragment;
 import com.example.cardcheckflow.CCFragment.CCValidityFragment;
 import com.example.cardcheckflow.Utils.CreditCardUtils;
 import com.example.cardcheckflow.Utils.ViewPagerAdapter;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -137,6 +142,30 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
             Toast.makeText(CheckOutActivity.this, "Enter valid security number", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(CheckOutActivity.this, "Your card is added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CheckOutActivity.this, cardName+"'s Info:"+"\n"+"Card Number:"+cardNumber+"\n"+"card cvv:"+cardCVV+"\n"+
+                    "card validity:"+cardValidity,Toast.LENGTH_LONG).show();
+
+
+            //2초후 main 이동, 값 받아오기
+            Handler hand = new Handler();
+             hand.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(CheckOutActivity.this, MainActivity.class);
+
+                i.putExtra("cardname",cardName);
+                i.putExtra("cardNumber",cardNumber);
+                i.putExtra("cardCVV",cardCVV);
+                i.putExtra("cardValidity",cardValidity);
+                startActivity(i);
+                finish();
+            }
+        },2000);
+
+//                    @SuppressLint("ResourceType") String  cardss = String.format(getResources().getString(R.id.cardStatus),cardName,cardNumber,cardCVV);
+
+
+            Log.d("--------------","cardname:"+cardName+"cardnumber:"+cardNumber+"cardcvv:"+cardCVV+"cardvalid:"+cardValidity);
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.cardcheckflow.CCFragment;
 
 
+
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -20,9 +21,7 @@ import com.example.cardcheckflow.Utils.CreditCardExpiryTextWatcher;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class CCValidityFragment extends Fragment {
 
 
@@ -35,6 +34,7 @@ public class CCValidityFragment extends Fragment {
 
     public CCValidityFragment() {
         // Required empty public constructor
+
     }
 
 
