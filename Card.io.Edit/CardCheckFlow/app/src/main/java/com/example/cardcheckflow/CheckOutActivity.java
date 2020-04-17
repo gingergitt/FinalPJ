@@ -1,6 +1,6 @@
 package com.example.cardcheckflow;
 
-import android.annotation.SuppressLint;
+
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.cardcheckflow.CCFragment.CCAGENCYFragment;
 import com.example.cardcheckflow.CCFragment.CCNameFragment;
 import com.example.cardcheckflow.CCFragment.CCNumberFragment;
 import com.example.cardcheckflow.CCFragment.CCSecureCodeFragment;
@@ -38,6 +39,7 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
     //This is our viewPager
     private ViewPager viewPager;
 
+    CCAGENCYFragment agencyFragment;
     CCNumberFragment numberFragment;
     CCNameFragment nameFragment;
     CCValidityFragment validityFragment;
@@ -48,7 +50,7 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
 
     private boolean mShowingBack = false;
 
-    String cardNumber, cardCVV, cardValidity, cardName;
+    String cardNumber, cardCVV, cardValidity, cardName, cardAgency;
 
 
     @Override
@@ -128,13 +130,16 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
 
     public void checkEntries() {
         cardName = nameFragment.getName();
+        cardAgency = agencyFragment.getAgency();
         cardNumber = numberFragment.getCardNumber();
         cardValidity = validityFragment.getValidity();
         cardCVV = secureCodeFragment.getValue();
 
         if (TextUtils.isEmpty(cardName)) {
             Toast.makeText(CheckOutActivity.this, "Enter Valid Name", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(cardNumber) || !CreditCardUtils.isValid(cardNumber.replace(" ",""))) {
+        }else if (TextUtils.isEmpty(cardAgency)  ) {
+            Toast.makeText(CheckOutActivity.this, "Enter Valid card agency", Toast.LENGTH_SHORT).show();
+        }else if (TextUtils.isEmpty(cardNumber) || !CreditCardUtils.isValid(cardNumber.replace(" ",""))) {
             Toast.makeText(CheckOutActivity.this, "Enter Valid card number", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(cardValidity)||!CreditCardUtils.isValidDate(cardValidity)) {
             Toast.makeText(CheckOutActivity.this, "Enter correct validity", Toast.LENGTH_SHORT).show();
@@ -142,7 +147,7 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
             Toast.makeText(CheckOutActivity.this, "Enter valid security number", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(CheckOutActivity.this, "Your card is added", Toast.LENGTH_SHORT).show();
-            Toast.makeText(CheckOutActivity.this, cardName+"'s Info:"+"\n"+"Card Number:"+cardNumber+"\n"+"card cvv:"+cardCVV+"\n"+
+            Toast.makeText(CheckOutActivity.this, "card Agency:"+cardAgency+"cardName"+cardName+"'s Info:"+"\n"+"Card Number:"+cardNumber+"\n"+"card cvv:"+cardCVV+"\n"+
                     "card validity:"+cardValidity,Toast.LENGTH_LONG).show();
 
 
@@ -154,6 +159,7 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
                 Intent i = new Intent(CheckOutActivity.this, MainActivity.class);
 
                 i.putExtra("cardname",cardName);
+                i.putExtra("cardAgency",cardAgency);
                 i.putExtra("cardNumber",cardNumber);
                 i.putExtra("cardCVV",cardCVV);
                 i.putExtra("cardValidity",cardValidity);
@@ -162,10 +168,10 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
             }
         },2000);
 
-//                    @SuppressLint("ResourceType") String  cardss = String.format(getResources().getString(R.id.cardStatus),cardName,cardNumber,cardCVV);
 
 
-            Log.d("--------------","cardname:"+cardName+"cardnumber:"+cardNumber+"cardcvv:"+cardCVV+"cardvalid:"+cardValidity);
+
+            Log.d("--------------","cardagency:"+cardAgency+"cardname:"+cardName+"cardnumber:"+cardNumber+"cardcvv:"+cardCVV+"cardvalid:"+cardValidity);
 
     }
 
@@ -176,10 +182,12 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        agencyFragment = new CCAGENCYFragment();
         numberFragment = new CCNumberFragment();
         nameFragment = new CCNameFragment();
         validityFragment = new CCValidityFragment();
         secureCodeFragment = new CCSecureCodeFragment();
+        adapter.addFragment(agencyFragment);
         adapter.addFragment(numberFragment);
         adapter.addFragment(nameFragment);
         adapter.addFragment(validityFragment);

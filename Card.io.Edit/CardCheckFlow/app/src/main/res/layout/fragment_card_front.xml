@@ -19,6 +19,17 @@
             android:paddingLeft="@dimen/activity_horizontal_margin">
 
 
+            <TextView
+                android:id="@+id/tv_cardagency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:text="@string/card_agnecy"
+                android:textAllCaps="true"
+                android:textColor="@color/card_text_color"
+                android:textSize="@dimen/medium_text" />
 
             <ImageView
                 android:layout_width="@dimen/chip_width"

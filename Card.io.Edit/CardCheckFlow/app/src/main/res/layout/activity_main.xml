@@ -9,44 +9,55 @@
 
     <TextView
         android:id="@+id/cardStatus1"
-        android:layout_width="122dp"
+        android:layout_width="250dp"
         android:layout_height="30dp"
         android:layout_marginStart="124dp"
         android:layout_marginTop="128dp"
-        android:text="TextView"
+        android:text="이름:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/cardStatus2"
-        android:layout_width="122dp"
+        android:layout_width="250dp"
         android:layout_height="30dp"
         android:layout_marginStart="124dp"
         android:layout_marginTop="188dp"
-        android:text="TextView"
+        android:text="카드번호:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/cardStatus3"
-        android:layout_width="122dp"
+        android:layout_width="250dp"
         android:layout_height="30dp"
         android:layout_marginStart="124dp"
         android:layout_marginTop="320dp"
-        android:text="TextView"
+        android:text="날짜:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/cardStatus4"
-        android:layout_width="122dp"
+        android:layout_width="250dp"
         android:layout_height="30dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="256dp"
-        android:text="TextView"
+        android:text="cvc번호:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cardStatus5"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="380dp"
+        android:text="카드회사:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

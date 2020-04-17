@@ -30,7 +30,7 @@ import static com.example.cardcheckflow.Utils.CreditCardUtils.VISA;
  */
 public class CardFrontFragment extends Fragment {
 
-
+    @BindView(R.id.tv_cardagency)TextView tvagency;
     @BindView(R.id.tv_card_number)TextView tvNumber;
     @BindView(R.id.tv_member_name)TextView tvName;
     @BindView(R.id.tv_validity)TextView tvValidity;
@@ -53,6 +53,7 @@ public class CardFrontFragment extends Fragment {
         fontTypeChange=new FontTypeChange(getActivity());
         tvNumber.setTypeface(fontTypeChange.get_fontface(3));
         tvName.setTypeface(fontTypeChange.get_fontface(3));
+        tvagency.setTypeface(fontTypeChange.get_fontface(3));
 
         return view;
     }
@@ -61,6 +62,7 @@ public class CardFrontFragment extends Fragment {
     {
         return tvNumber;
     }
+    public TextView getAgency() { return tvagency;}
     public TextView getName()
     {
         return tvName;
