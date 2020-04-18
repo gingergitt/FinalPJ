@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appver2.CheckOutActivity;
 import com.example.appver2.MainActivity;
 import com.example.appver2.R;
 import com.example.appver2.RegisterActivity;
@@ -212,12 +213,13 @@ public class LoginActivity extends AppCompatActivity {
                     SaveSharedPreference.setUserName(LoginActivity.this, idbt.getText().toString());
                 Toast.makeText(LoginActivity.this, idbt.getText().toString()+"님 환영합니다.", Toast.LENGTH_SHORT).show();
                 Toast.makeText(LoginActivity.this,"메인페이지로 이동합니다!", Toast.LENGTH_LONG).show();
+
                 //2초후 메인페이지 이동
                 Handler hand = new Handler();
                 hand.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent i = new Intent(LoginActivity.this, CheckOutActivity.class);
                         startActivity(i);
                         finish();
 

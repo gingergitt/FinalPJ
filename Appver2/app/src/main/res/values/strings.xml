@@ -2,6 +2,13 @@
     <string name="app_name">Appver2</string>
     <string name="msg_token_fmt" translatable="false">InstanceID Token : %s</string>
 
+    <string name="card_header">NFN CARD</string>
+    <string name="card_number_sample">XXXX XXXX XXXX XXXX</string>
+    <string name="card_validity_label">VALID UPTO</string>
+    <string name="card_validity_sample">MM/YY</string>
+    <string name="card_name_sample">CARD HOLDER</string>
+
+
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -12,4 +19,15 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="card_holders_name">Card Holder\'s Name</string>
+    <string name="card_agnecy">Card Agency</string>
+
+    <string name="card_number">Card Number</string>
+    <string name="card_validity">Expires</string>
+    <string name="card_cvv">CVV/CVC Number</string>
+
 </resources>
