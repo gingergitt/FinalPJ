@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appver2.CarPayActivity;
 import com.example.appver2.MainActivity;
 import com.example.appver2.R;
 import com.example.appver2.RegisterActivity;
@@ -43,7 +42,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 //필요기능
-//1: 텍스트 미입력시 토스트띄우기 + 관심사 DB등록
+//1: id, pwd미입력시 id를 입력하세요! 토스트 띄우고 task중지
+//2: 자동로그인
+//3: ui
+//4: 로그인 시 00님 환영합니다.
+// 순서 : 메인로고 (onPreExecute) -> 로그인 액티비티 -> 성공시 메인 or 레지스터 화면 -> 레지스터 화면에서 가입 성공 시 메인 -> 메인 구상하기 .
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -81,8 +84,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Log.d("---","login");
-                String sidbt = idbt.getText().toString();
-                String spwdbt = pwdbt.getText().toString();
+                String id = idbt.getText().toString();
+                String pwd = pwdbt.getText().toString();
 
                 if(idbt == null) {
                     Toast.makeText(getApplicationContext(),"id를 입력해주세요.",Toast.LENGTH_SHORT).show();
@@ -95,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
                 LoginTask loginTask = new LoginTask();
-                loginTask.setURL(sidbt,spwdbt);
+                loginTask.setURL(id,pwd);
                 loginTask.execute();
             }
 
@@ -122,10 +125,9 @@ public class LoginActivity extends AppCompatActivity {
         private String urlstr;
 
 
-
         public  void setURL(String id, String pwd) {
             Log.d("---------------------","LoginTask http 연결");
-            urlstr = "http://70.12.226.146/oracledb/androidLogin.jsp?id="+id + "&pwd=" + pwd;
+            urlstr = "http://70.12.226.146/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
 //            urlstr = "http://192.168.0.20/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
 
@@ -210,13 +212,12 @@ public class LoginActivity extends AppCompatActivity {
                     SaveSharedPreference.setUserName(LoginActivity.this, idbt.getText().toString());
                 Toast.makeText(LoginActivity.this, idbt.getText().toString()+"님 환영합니다.", Toast.LENGTH_SHORT).show();
                 Toast.makeText(LoginActivity.this,"메인페이지로 이동합니다!", Toast.LENGTH_LONG).show();
-                //2초후 carpayment페이지 이동 - login 후 어디로 이동할것인지.. 다시 수정
-
+                //2초후 메인페이지 이동
                 Handler hand = new Handler();
                 hand.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent i = new Intent(LoginActivity.this, CarPayActivity.class);
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i);
                         finish();
 

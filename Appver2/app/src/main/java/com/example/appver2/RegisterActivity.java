@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -34,6 +35,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.appver2.R.id.checkBox1;
+
 public class RegisterActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
 
@@ -44,11 +47,22 @@ public class RegisterActivity extends AppCompatActivity {
     private String userage;
     private String userphone;
     private String useremail;
+    private String useraddress;
     private String useragree;
+    private String adcategoryno;
+    private String living;
+    private String food ;
+    private String culture;
+    private String fashion;
+    private String beauty;
+    private String pet;
+    private String sport;
+    private String publicad;
+    private String economy;
     private AlertDialog dialog;
     private boolean validate = false;
     private TextView textView1, textView2, textView3, textView4, textView5;
-    private CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5;
+    private CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6,checkBox7,checkBox8,checkBox9;
 
 
 
@@ -57,13 +71,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-//        RegisterTask task = new RegisterTask();
-//        String res;
-//        String res2;
         try {
 
-
-//            Log.i("------------리턴 값", res);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,14 +83,23 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText passwordText = (EditText) findViewById(R.id.passwordText);
         final EditText ageText = findViewById(R.id.ageText);
         final EditText emailText = (EditText) findViewById(R.id.emailText);
+        final EditText addressText = (EditText) findViewById(R.id.addressText);
         final EditText phone = (EditText) findViewById(R.id.Phone);
         Button registerButton = findViewById(R.id.registerButton);
 
         //default값 설정
         useragree = "Y";
         usergender = "F";
-
-
+         living = "N";
+         food = "N";
+         culture = "N";
+         fashion = "N";
+         beauty = "N";
+         pet = "N";
+         sport = "N";
+         publicad = "N";
+         economy = "N";
+        adcategoryno = "6";
 // ---------------------------------------------------------------------------------------------------------
         final RadioGroup genderGroup = (RadioGroup) findViewById(R.id.genderGroup);
         final int genderGroupID = genderGroup.getCheckedRadioButtonId();
@@ -121,10 +139,35 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        checkBox1 = findViewById(R.id.checkBox1);
+        checkBox2 = findViewById(R.id.checkBox2);
+        checkBox3 = findViewById(R.id.checkBox3);
+        checkBox4 = findViewById(R.id.checkBox4);
+        checkBox5 = findViewById(R.id.checkBox5);
+        checkBox6 = findViewById(R.id.checkBox6);
+        checkBox7 = findViewById(R.id.checkBox7);
+        checkBox8 = findViewById(R.id.checkBox8);
+        checkBox9 = findViewById(R.id.checkBox9);
+
+
+
+//        CheckBox repeatChkBx = ( CheckBox ) findViewById(R.id.checkBox1);
+//        repeatChkBx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) { if ( checkBox1.isChecked()) {
+//                 living = "Y";
+//                 }else{
+//                 living = "N";
+//
+//            }
+//            } });
+
 // *******************************************************************************************
         //Register(회원가입) 버튼이 눌렸을 때
         //빈 공간 체크, 가입 완료 시 로그인 화면으로 가도록 함.
 //
+
+
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,9 +176,41 @@ public class RegisterActivity extends AppCompatActivity {
                 String userage = ageText.getText().toString();
                 String userphone = phone.getText().toString();
                 String useremail = emailText.getText().toString();
+                String useraddress = addressText.getText().toString();
+
+        //제출 버튼 눌렀을 때 바뀐 체크박스 값을 전달
+                if(checkBox1.isChecked()){
+                     living = "Y";
+                }
+                if(checkBox2.isChecked()){
+                     food = "Y";
+                }
+                if(checkBox3.isChecked()){
+                     culture = "Y";
+                }
+                if(checkBox4.isChecked()){
+                     fashion = "Y";
+                }
+                if(checkBox5.isChecked()){
+                     beauty = "Y";
+                }
+                if(checkBox6.isChecked()){
+                     pet = "Y";
+                }
+                if(checkBox7.isChecked()){
+                     sport = "Y";
+                }
+                if(checkBox8.isChecked()){
+                     publicad = "Y";
+                }
+                if(checkBox9.isChecked()){
+                     economy = "Y";
+                }
+
+
 
                 RegisterTask registerTask = new RegisterTask();
-                registerTask.setURL(userid,userpwd,Integer.parseInt(userage),userphone,useremail,usergender,useragree);
+                registerTask.setURL(userid,userpwd,Integer.parseInt(userage),usergender,userphone,useremail,useraddress,useragree, Integer.parseInt(adcategoryno),living,food,fashion,culture,beauty,pet,sport,publicad,economy);
                 registerTask.execute();
                 //빈칸이 있을 경우 토스트메시지
                 if(userid==null) {
@@ -148,6 +223,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "전화번호를 입력하세요!", Toast.LENGTH_LONG).show();
                 }else if(useremail==null) {
                     Toast.makeText(getApplicationContext(), "이메일을 입력하세요!", Toast.LENGTH_LONG).show();
+                }else if(useraddress==null) {
+                    Toast.makeText(getApplicationContext(), "주소를 입력하세요!", Toast.LENGTH_LONG).show();
                 }
 //                else if(checkBox1.isChecked() == false &&
 //                checkBox2.isChecked() == false &&
@@ -176,11 +253,13 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         String sendMsg, urlstr, receiveMsg;
-        public void setURL (String id, String pwd, int age,  String phone, String email,String gender,
-                            String agree) {
+        public void setURL (String id, String pwd, int age,String gender,  String phone, String email, String address,
+                            String agree,int adcategoryno, String living,String food,String fashion,String culture,String beauty,String pet,String sport,String publicad,String economy) {
 
-            urlstr = "http://70.12.113.248/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
-                    gender + "&phone=" + phone + "&email=" + email + "&agree=" + agree;
+            urlstr = "http://70.12.226.146/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
+                    gender + "&phone=" + phone + "&email=" + email +  "&address=" + address +"&agree=" + agree +"&adcategoryno=" + adcategoryno+"&living="
+                    + living +"&food=" + food +"&fashion=" + fashion +"&culture=" + culture +"&beauty=" + beauty +"&pet=" + pet +"&sport=" + sport+ "&publicad="
+                    + publicad+ "&economy=" + economy;
 //            urlstr = "http://192.168.0.3/oracledb/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
 //                    gender + "&phone=" + phone + "&email=" + email + "&agree=" + agree;
 

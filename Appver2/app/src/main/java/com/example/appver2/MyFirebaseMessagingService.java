@@ -24,7 +24,6 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.net.URL;
 import java.util.Map;
 
 
@@ -73,20 +72,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, "intent확인:");
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //이미지 온라인 링크를 가져와 비트맵으로 바꾼다.
-//        try {
-//            URL url = new URL(myimgurl);
-//            bigPicture = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-
-
         Bitmap bmp = BitmapFactory.decodeResource(this.getResources(),R.drawable.ic_launcher_background);
 
-//        String channelId = getString(R.string.default_notificationon_channel_id);
 
         String channelId = "channel_id";
         String channelName = "Channel_name";
@@ -113,25 +100,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-//    @Override
-//   public void onNewToken(@NonNull String s) {
-//        super.onNewToken(s);
-//
-//        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                if (!task.isSuccessful()) {
-//                    Log.d("===", "getting new token fail!");
-//                    return;
-//                }
-//
-//                String token = task.getResult().getToken();
-//
-//                String msg = getString(R.string.msg_token_fmt, token);
-//                Log.d(TAG, msg);
-//                Toast.makeText(MyFirebaseMessagingService.this, msg, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    @Override
+   public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (!task.isSuccessful()) {
+                    Log.d("===", "getting new token fail!");
+                    return;
+                }
+
+                String token = task.getResult().getToken();
+
+                String msg = getString(R.string.msg_token_fmt, token);
+                Log.d(TAG, msg);
+                Toast.makeText(MyFirebaseMessagingService.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
 
 }

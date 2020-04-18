@@ -154,6 +154,22 @@
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/darker_gray" />
 
+                <EditText
+                    android:id="@+id/addressText"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+
+                    android:drawableStart="@color/cardview_dark_background"
+                    android:drawableLeft="@color/cardview_light_background"
+
+                    android:hint="Address"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+
                 <RadioGroup
                     android:id="@+id/AdGroup"
                     android:layout_width="280dp"
@@ -231,7 +247,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="66dp"
-                        android:text="기타" />
+                        android:text="뷰티" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="66dp"
+                        android:text="반려동물" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="66dp"
+                        android:text="스포츠" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="66dp"
+                        android:text="공익광고" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="66dp"
+                        android:text="금융" />
 
                 </LinearLayout>
 
