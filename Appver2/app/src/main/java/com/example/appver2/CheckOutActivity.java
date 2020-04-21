@@ -179,22 +179,22 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
                     "card validity:"+cardValidity,Toast.LENGTH_LONG).show();
 
 
-//            //2초후 main 이동, 값 받아오기
-//            Handler hand = new Handler();
-//             hand.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent i = new Intent(CheckOutActivity.this, MainActivity.class);
-//
-//                i.putExtra("cardname",cardName);
-//                i.putExtra("cardAgency",cardAgency);
-//                i.putExtra("cardNumber",cardNumber);
-//                i.putExtra("cardCVV",cardCVV);
-//                i.putExtra("cardValidity",cardValidity);
-//                startActivity(i);
-//                finish();
-//            }
-//        },2000);
+            //2초후 main 이동, 값 받아오기
+            Handler hand = new Handler();
+             hand.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(CheckOutActivity.this, MainActivity.class);
+
+                i.putExtra("cardname",cardName);
+                i.putExtra("cardAgency",cardAgency);
+                i.putExtra("cardNumber",cardNumber);
+                i.putExtra("cardCVV",cardCVV);
+                i.putExtra("cardValidity",cardValidity);
+                startActivity(i);
+                finish();
+            }
+        },2000);
 
 
         CardTask cardTask = new CardTask();
@@ -268,7 +268,7 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
     // --------------------------------------------------------------------------------------------------------------
 
     public class CardTask extends AsyncTask<String, Void, String> {
-       private String id;
+     public String id;
         private  String receiveMsg;
         private  String urlstr2;
 

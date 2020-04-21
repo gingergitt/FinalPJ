@@ -25,6 +25,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appver2.CheckOutActivity;
+import com.example.appver2.DriveActivity;
 import com.example.appver2.MainActivity;
 import com.example.appver2.R;
 import com.example.appver2.RegisterActivity;
@@ -226,7 +227,8 @@ public class LoginActivity extends AppCompatActivity {
                 hand.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent i = new Intent(LoginActivity.this, CheckOutActivity.class);
+                        Intent i = new Intent(LoginActivity.this, DriveActivity.class);
+                        i.putExtra("id",idbt.getText().toString());
                         startActivity(i);
                         finish();
 
