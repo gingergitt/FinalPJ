@@ -20,6 +20,8 @@ public class LoginDB {
 //	String jdbcUrl = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
 	String jdbcUrl = "jdbc:oracle:thin:@70.12.226.146:1521:xe";
 
+
+
 	String userId = "NY";
 	String userPw = "NY";
 

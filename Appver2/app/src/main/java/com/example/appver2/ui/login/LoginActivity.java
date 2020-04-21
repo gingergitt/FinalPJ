@@ -55,7 +55,8 @@ public class LoginActivity extends AppCompatActivity {
     private AlertDialog dialog;
     // UI references.
     private ImageView logo;
-    private EditText idbt, pwdbt;
+    public static EditText idbt;
+    private static EditText pwdbt;
     String sidbt, spwdbt;
     Button loginbt, regibt;
     ProgressBar loading;
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-         idbt = findViewById(R.id.idbt);
+       idbt = findViewById(R.id.idbt);
         pwdbt = findViewById(R.id.pwdbt);
         logo = findViewById(R.id.logo);
         loginbt = findViewById(R.id.loginbt);
@@ -86,6 +87,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 Log.d("---","login");
                 String id = idbt.getText().toString();
+//                //----
+//                Intent intent = new Intent(LoginActivity.this, CheckOutActivity.class);
+//                intent.putExtra("id", id);
+//                startActivity(intent);
+//                //-----
+
                 String pwd = pwdbt.getText().toString();
 
                 if(idbt == null) {
@@ -130,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("---------------------","LoginTask http 연결");
             urlstr = "http://70.12.226.146/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
-//            urlstr = "http://192.168.0.20/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+//            urlstr = "http://172.30.1.31/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
 
             Log.d("----------------","usl연결 oK?");
         }

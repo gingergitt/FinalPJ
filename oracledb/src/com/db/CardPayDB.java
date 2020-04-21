@@ -18,7 +18,7 @@ public class CardPayDB {
 	}
 	
 	//oracle
-	String jdbcUrl = "jdbc:oracle:thin:@70.12.226.146:80:1521:xe";
+	String jdbcUrl = "jdbc:oracle:thin:@70.12.226.146:1521:xe";
 	String userId = "NY";
 	String userPw = "NY";
 	
@@ -43,14 +43,14 @@ public class CardPayDB {
 			System.out.println(cardname);
 			System.out.println(id);
 			System.out.println(cardagency);
-			
+			// 한 id에 저장된 카드번호가 5개 초과일 경우 저장하지 못하도록 하는 쿼리 추가해야함.
 			sql = "SELECT * FROM CARD WHERE USERID = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				System.out.println("rs.getString(\"cardno\") "+rs.getString("cardno"));
-				if (rs.getString("cardno") != null) {
+				System.out.println("rs.getString(\"userid\") "+rs.getString("userid"));
+				if (rs.getString("userid") != null) {
 					return "NO";
 
 				}
@@ -62,6 +62,7 @@ public class CardPayDB {
 				pstmt2.setString(3,id);
 				pstmt2.setString(4,cardagency);
 				
+//				System.out.println(pstmt2.toString());
 				pstmt2.executeUpdate();
 				
 				

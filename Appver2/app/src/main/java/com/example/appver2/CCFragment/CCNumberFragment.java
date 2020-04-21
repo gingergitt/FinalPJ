@@ -96,6 +96,7 @@ public class CCNumberFragment extends Fragment {
         if(et_number!=null)
             return et_number.getText().toString().trim();
 
+
         return null;
     }
 
