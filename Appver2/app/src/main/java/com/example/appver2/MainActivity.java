@@ -11,51 +11,50 @@ import android.widget.TextView;
 import com.example.appver2.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
-//    TextView cardStatus1, cardStatus2, cardStatus3, cardStatus4, cardStatus5;
-    Button button,button2,button3,button4;
+    MainFragment fragment1;
+    PaymentFragment fragment2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button = findViewById(R.id.button);
-        button2 = findViewById(R.id.button2);
-        button3 = findViewById(R.id.button3);
-        button4 = findViewById(R.id.button4);
+
+        fragment1 = new MainFragment();
+        fragment2 = new PaymentFragment();
+
+        Button button = (Button)findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment1).commit();
+
+
+
+
+            }
+        });
+
+
+        Button button2 = (Button)findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment2).commit(); // 여러개의 명을 만들어서 쓴다
+
+            }
+        });
+
 
     }
 
-    public void ctbt(View v){
-        if(v.getId() == R.id.button){
-            Intent intent =
-                    new Intent(getApplicationContext(),
-                            RegisterActivity.class);
 
+    public void onFragmentChange(int index){
+        if(index ==0){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment1).commit();
 
-
-            startActivity(intent);
-        } else if (v.getId() == R.id.button2) {
-            Intent intent =
-                    new Intent(getApplicationContext(),
-                            LoginActivity.class);
-
-            startActivity(intent);
-        }else if (v.getId() == R.id.button3) {
-            Intent intent =
-                    new Intent(getApplicationContext(),
-                            MapActivity.class);
-
-            startActivity(intent);
-        }else if (v.getId() == R.id.button4) {
-            Intent intent =
-                    new Intent(getApplicationContext(),
-                            CheckOutActivity.class);
-
-            startActivity(intent);
+        }else if(index ==1){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment2).commit();
         }
-
-
     }
-
-
 
 }

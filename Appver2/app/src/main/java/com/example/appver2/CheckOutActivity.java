@@ -44,6 +44,9 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
     @BindView(R.id.btnNext)
     Button btnNext;
 
+//    MainFragment fragment1;
+//    PaymentFragment fragment2;
+
     public CardFrontFragment cardFrontFragment;
     public CardBackFragment cardBackFragment;
 
@@ -70,7 +73,9 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_out);
-//        idbt = (EditText)findViewById(R.id.idbt);
+//
+//        fragment1 = new MainFragment();
+//        fragment2 = new PaymentFragment();
         tv_card_number = findViewById(R.id.tv_card_number);
         tv_cardagency = findViewById(R.id.tv_cardagency);
         tv_member_name = findViewById(R.id.tv_member_name);
@@ -264,6 +269,20 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
     public void nextClick() {
         btnNext.performClick();
     }
+
+
+    //-------------------
+
+//
+//    public void onFragmentChange(int index){
+//        if(index ==0){
+//            getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment1).commit();
+//
+//        }else if(index ==1){
+//            getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment2).commit();
+//        }
+//    }
+//-----------------
 
     // --------------------------------------------------------------------------------------------------------------
 
