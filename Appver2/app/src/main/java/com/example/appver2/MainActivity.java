@@ -10,9 +10,12 @@ import android.widget.TextView;
 
 import com.example.appver2.ui.login.LoginActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     MainFragment fragment1;
     PaymentFragment fragment2;
+    public ArrayList<VerticalData> temparray = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

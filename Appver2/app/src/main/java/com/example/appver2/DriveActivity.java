@@ -3,6 +3,7 @@ package com.example.appver2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ public class DriveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drive);
         DriveStart = (ImageView) findViewById(R.id.DriveStart);
+
             button5 = findViewById(R.id.button5);
             button6 = findViewById(R.id.button6);
             Intent i = getIntent();
@@ -44,7 +46,24 @@ public class DriveActivity extends AppCompatActivity {
                 }
         });
 
+
+
+        DriveStart.setOnClickListener(new ImageView.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                if(id !=null){
+                    new ConnectThread("70.12.225.143", 8888).start(); //Thread시작
+                }
+            }
+
+        });
+        Log.d("=======","imageview눌림?");
+
     }
+
+
+
 
     class ConnectThread extends Thread {
 
@@ -119,6 +138,9 @@ public class DriveActivity extends AppCompatActivity {
         }
 
     }
+
+
+
 
 }
 

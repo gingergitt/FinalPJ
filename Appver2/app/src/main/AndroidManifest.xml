@@ -13,6 +13,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".DriveActivity"></activity>
         <activity android:name=".MapActivity" />
+
+
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
@@ -24,6 +26,14 @@
 <!--            </intent-filter>-->
         </activity>
 
+
+<!--        <activity android:name=".MapActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
         <activity android:name=".MainActivity">
             <intent-filter>
