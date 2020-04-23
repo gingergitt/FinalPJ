@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import msg.Msg;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -38,8 +40,10 @@ public class DriveActivity extends AppCompatActivity {
             Log.d("---------id는:",id);
 
         button5.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
+                    Log.d("--------","setOnClickListener");
                     if(id !=null){
                         new ConnectThread("70.12.225.143", 8888).start(); //Thread시작
                     }
@@ -84,6 +88,7 @@ public class DriveActivity extends AppCompatActivity {
             try {
                 clientSocket = new Socket(ip, port);
                 Log.d("-----------", "Connect ok");
+//                Toast.makeText(getApplicationContext(),ip+"에 연결되었습니다.",Toast.LENGTH_SHORT).show();
 
             } catch (Exception e) {
                 while (true) {
@@ -122,6 +127,7 @@ public class DriveActivity extends AppCompatActivity {
 
         public void setMsg(Msg msg) {
             Log.d("-----------","setMsg");
+
             this.msg = msg;
         }
 

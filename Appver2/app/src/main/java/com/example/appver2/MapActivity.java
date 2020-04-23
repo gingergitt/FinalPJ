@@ -4,11 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Adapter;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.example.appver2.ui.login.LoginActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,14 +29,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static com.example.appver2.ui.login.LoginActivity.idbt;
+import static com.example.appver2.ui.login.LoginActivity.pwdbt;
+
 
 public class MapActivity extends AppCompatActivity {
 
         private RecyclerView mVerticalView;
         private VerticalAdapter mAdapter;
         private LinearLayoutManager mLayoutManager;
-        private static ArrayList<VerticalData> data;
+
         private int MAX_ITEM_COUNT = 5;
+        ArrayList<VerticalData> data = new ArrayList<>();
+
+
+        ProgressBar loading;
+        ProgressDialog progressDialog;
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -38,287 +54,283 @@ public class MapActivity extends AppCompatActivity {
 
             // RecyclerView binding
             mVerticalView = (RecyclerView) findViewById(R.id.vertical_list);
-            String url = "http://70.12.226.146/oracledb/androidCardLogin.jsp";
-
-
-
-            NetworkTask networkTask = new NetworkTask(url, null);
-
-            networkTask.execute();
+            progressDialog = new ProgressDialog(this);
 
             // init Data
-            data = new ArrayList<>();
-            ArrayList<ImageView> img = new ArrayList<>();
+//
+//            ArrayList<ImageView> img = new ArrayList<>();
+//
+//
+//            int i = 0;
+//            while (i < MAX_ITEM_COUNT) {
+//                if(i==0){
+//                    data.add(new VerticalData(R.drawable.registercard, i+"번째 데이터"));
+//                }else if(i==1){
+//                    data.add(new VerticalData(R.drawable.hana, i+"번째 데이터"));
+//                }
+//                else if(i==2){
+//                    data.add(new VerticalData(R.drawable.shinhan, i+"번째 데이터"));
+//                }else if(i==3){
+//                    data.add(new VerticalData(R.drawable.woori, i+"번째 데이터"));
+//                }else if(i==4){
+//                    data.add(new VerticalData(R.drawable.ibk, i+"번째 데이터"));
+//                }
+//                i++;
+//            }
+
+            // init LayoutManager
 
 
-            int i = 0;
-            while (i < MAX_ITEM_COUNT) {
-                if(i==0){
-                    data.add(new VerticalData(R.drawable.registercard, i+"번째 데이터"));
-                }else if(i==1){
-                    data.add(new VerticalData(R.drawable.hana, i+"번째 데이터"));
-                }
-                else if(i==2){
-                    data.add(new VerticalData(R.drawable.shinhan, i+"번째 데이터"));
-                }else if(i==3){
-                    data.add(new VerticalData(R.drawable.woori, i+"번째 데이터"));
-                }else if(i==4){
-                    data.add(new VerticalData(R.drawable.ibk, i+"번째 데이터"));
-                }
-                i++;
+            Intent intent = getIntent(); /*데이터 수신*/
+            String id = idbt.getText().toString(); /*String형*/
+            String pwd = pwdbt.getText().toString(); /*int형*/
+            CardMatchTask cardmatchtask = new CardMatchTask();
+            cardmatchtask.setURL(id,pwd);
+            cardmatchtask.execute();
+
+        }
+
+// Card 등록 여부 확인 Task 실행 ----------------------------------------------------------------------
+
+    public class CardMatchTask extends AsyncTask<String, Void, String> {
+        private String receiveMsg;
+        private String urlstr;
+
+
+        public  void setURL(String id, String pwd) {
+            Log.d("---------------------","LoginTask http 연결");
+            urlstr = "http://70.12.226.146/oracledb/androidCardLogin.jsp?id="+id+"&pwd"+pwd;
+
+//            urlstr = "http://192.168.0.20/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+
+            Log.d("----------------","usl연결 oK?");
+        }
+
+            public  void setURL2(String id, String pwd) {
+                Log.d("---------------------","LoginTask http 연결");
+                urlstr = "http://70.12.226.146/oracledb/androidCard.jsp?id="+id+"&pwd"+pwd;
+
+//            urlstr = "http://192.168.0.20/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+
+                Log.d("----------------","usl연결 oK?");
             }
 
 
-            // init LayoutManager
-         // 기본값이 VERTICAL
-            mLayoutManager = new LinearLayoutManager(this);
-            mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
-            // setLayoutManager
-            mVerticalView.setLayoutManager(mLayoutManager);
-
-            // init Adapter
-            mAdapter = new VerticalAdapter();
-
-            // set Data
-            mAdapter.setData(data);
-
-            // set Adapter
-            mVerticalView.setAdapter(mAdapter);
-
-        }
-////////////////////////////////////////////////////////////////////////////////////
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
-
-        private String url;
-
-        private ContentValues values;
 
 
+        //thread와 동일 형식
+        @Override //시작하기전
+        protected void onPreExecute() {
+            Log.d("----","onPreExecute");
+            progressDialog.setTitle("HTTP Connection...");
+            progressDialog.setTitle("Please Wait...!");
 
-        public NetworkTask(String url, ContentValues values) {
-
-            this.url = url;
-
-            this.values = values;
-
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            Log.d("---------","dialog show");
+//            progressDialog.dismiss();
         }
 
 
 
         @Override
-
-        protected String doInBackground(Void... params) {
-
-            String result; // 요청 결과를 저장할 변수.
-
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-
-            result = requestHttpURLConnection.request(url, values);
-
-            // 해당 URL로 부터 결과물을 얻어온다.
-
-            return result;
-
-        }
-
-
-
-        @Override
-
-        protected void onPostExecute(String s) {
-
-            super.onPostExecute(s);
-
-            //textView.setText(s);
-
-        }
-
-    }
-
-
-
-    public class RequestHttpURLConnection {
-
-        public String request(String _url, ContentValues _params) {
-
-            // HttpURLConnection 참조 변수.
-
-            HttpURLConnection urlConn = null;
-
-            // URL 뒤에 붙여서 보낼 파라미터.
-
-            StringBuffer sbParams = new StringBuffer();
-
-
-
-            /**
-
-             * 1. StringBuffer에 파라미터 연결
-
-             * */
-
-            // 보낼 데이터가 없으면 파라미터를 비운다.
-
-            if (_params == null)
-
-            // sbParams.append("");
-
-            //  sbParams.append("miseID=" + miseID);
-
-            //sbParams.append("&misePW=" + misePW);
-
-            //sbParams.append("miseID=test001&misePW=test001&miseNAME=테스트001");
-
-            //sbParams.append("memberID=test123&password=test123&name=꼬북이&email=test123@naver.com");
-
-            // 보낼 데이터가 있으면 파라미터를 채운다.
-
-
-
-            /**
-
-             * 2. HttpURLConnection을 통해 web의 데이터를 가져온다.
-
-             * */
-
-                try {
-
-                    URL url = new URL(_url);
-
-                    urlConn = (HttpURLConnection) url.openConnection();
-
-
-
-                    // [2-1]. urlConn 설정.
-
-                    urlConn.setRequestMethod("POST"); // URL 요청에 대한 메소드 설정 : POST.
-
-                    urlConn.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
-
-                    urlConn.setRequestProperty("Context_Type", "application/x-www-form-urlencoded;cahrset=UTF-8");
-
-
-
-                    // [2-2]. parameter 전달 및 데이터 읽어오기.
-
-                    String strParams = sbParams.toString(); //sbParams에 정리한 파라미터들을 스트링으로 저장. 예)id=id1&pw=123;
-
-                    OutputStream os = urlConn.getOutputStream();
-
-                    os.write(strParams.getBytes("UTF-8")); // 출력 스트림에 출력.
-
-                    os.flush(); // 출력 스트림을 플러시(비운다)하고 버퍼링 된 모든 출력 바이트를 강제 실행.
-
-                    os.close(); // 출력 스트림을 닫고 모든 시스템 자원을 해제.
-
-
-
-                    // [2-3]. 연결 요청 확인.
-
-                    // 실패 시 null을 리턴하고 메서드를 종료.
-
-                    if (urlConn.getResponseCode() != HttpURLConnection.HTTP_OK)
-
-                        return null;
-
-
-
-                    // [2-4]. 읽어온 결과물 리턴.
-
-                    // 요청한 URL의 출력물을 BufferedReader로 받는다.
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "UTF-8"));
-
-
-
-                    // 출력물의 라인과 그 합에 대한 변수.
-
-                    String line;
-
-                    String page = "";
-
-
-
-                    // 라인을 받아와 합친다.
-
-                    // 버퍼의 웹문서 소스를 줄 단위로 읽어(line), page에 저장함
-
-                    while ((line = reader.readLine()) != null) {
-
-                        page += line;
-
+        protected String doInBackground(String... strings) {
+
+            Log.d("---------","do in background 확인");
+            try {
+                String str;
+                URL url = new URL(urlstr);
+                Log.d("---------","url="+urlstr);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
+
+                conn.setDoInput(true);
+                conn.connect();
+
+
+                if (conn.getResponseCode() == conn.HTTP_OK) {
+                    InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
+                    BufferedReader reader = new BufferedReader(tmp);
+                    StringBuffer buffer = new StringBuffer();
+                    //jsp에서 보낸 값을 받는다.
+                    while ((str = reader.readLine()) != null) {
+                        buffer.append(str);
                     }
-
-                    try {
-
-                        // JSP에서 보낸 JSON 받아오자  JSONObject = siteDataMain
-
-                        JSONObject json = new JSONObject(page);
-
-                        JSONArray jArr = json.getJSONArray("siteDataMain");
-
-
-
-                        // JSON이 가진 크기만큼 데이터를 받아옴
-
-                        for (int i = 0; i < jArr.length(); i++) {
-
-                            json = jArr.getJSONObject(i);
-
-                            System.out.println(i + "번째 데이터 : " + json.getString("siteTitle"));
-
-                            System.out.println(i + "번째 데이터 : " + json.getString("siteLink"));
-
-                            System.out.println(i + "번째 데이터 : " + json.getString("siteImage"));
-
-                            System.out.println(i + "번째 데이터 : " + json.getString("siteText"));
-
-                            System.out.println("\n");
-
-
-
-                          //  list.add(new CardForSite(json.getString("siteTitle"), json.getString("siteLink"), json.getString("siteImage"), json.getString("siteText")));
-
-                        }
-
-                        /* 여기까지 서버가 보낸 데이터를 받아 왔다. 밑에는 확인을 위한 수행 */
-
-                        //String data = "받은 데이터 : " + getJsonData[0] + " " + getJsonData[1];
-
-                        //setTextView(data);
-
-
-
-                    } catch(Exception e){
-
-                        e.printStackTrace();;
-
-                    }
-
-                } catch (MalformedURLException e) { // for URL.
-
-                    e.printStackTrace();
-
-                } catch (IOException e) { // for openConnection().
-
-                    e.printStackTrace();
-
-                } finally {
-
-                    if (urlConn != null)
-
-                        urlConn.disconnect();
-
+                    receiveMsg = buffer.toString();
+                    Log.d("---------","ok");
+                } else {
+                    Log.i("통신 결과", conn.getResponseCode() + "에러");
+                    // 통신이 실패했을 때 실패한 이유를 알기 위해 로그를 찍습니다.
                 }
 
-            return null;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Log.d("---------","receiveMsg="+receiveMsg);
+//            Toast.makeText(getApplicationContext() ,"회원가입완료?",Toast.LENGTH_LONG).show();
+            return receiveMsg;
+        }
+
+        // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        @Override //끝날때
+        protected void onPostExecute(String s) {
+
+            Log.d("=======","s="+s.trim());
+
+            if(s.trim().equals("1")) {
+                Log.d("=======","s=1 :"+s.trim());
+
+                Handler hand = new Handler();
+                hand.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(MapActivity.this, MainActivity.class);
+                        //main으로 옮겨진 상태?
+                        ArrayList<VerticalData> data = new ArrayList<>();
+
+
+                        int a = 0;
+
+                        while (a < MAX_ITEM_COUNT) {
+                            if(a==0){
+                                data.add(new VerticalData(R.drawable.registercard, a+"번째 데이터"));
+                            }else if(a==1){
+                                data.add(new VerticalData(R.drawable.hana, a+"번째 데이터"));
+                            }
+                            else if(a==2){
+                                data.add(new VerticalData(R.drawable.shinhan, a+"번째 데이터"));
+                            }else if(a==3){
+                                data.add(new VerticalData(R.drawable.woori, a+"번째 데이터"));
+                            }else if(a==4){
+                                data.add(new VerticalData(R.drawable.ibk, a+"번째 데이터"));
+                            }
+                            a++;
+                        }
+                        // 기본값이 VERTICAL
+                        mLayoutManager = new LinearLayoutManager(MapActivity.this);
+                        mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+                        // setLayoutManager
+                        mVerticalView.setLayoutManager(mLayoutManager);
+
+                        // init Adapter
+                        mAdapter = new VerticalAdapter();
+
+                        // set Data
+                        mAdapter.setData(data);
+
+                        // set Adapter
+                        mVerticalView.setAdapter(mAdapter);
+
+                        startActivity(i);
+                        finish();
+
+
+                    }
+                },2000);
+//                2초후 메인페이지 이동
+
+
+
+            }else if(s.trim().equals("0")){
+                Log.d("=======","s=0 :"+s.trim());
+                Toast.makeText(MapActivity.this,"등록된 카드가 없습니다. 카드등록페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+
+
+                Handler hand = new Handler();
+                hand.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        Intent i = new Intent(MapActivity.this, CheckOutActivity.class);
+
+
+                        ArrayList<VerticalData> data = new ArrayList<>();
+
+                        startActivity(i);
+                        finish();
+
+
+                    }
+                },2000);
+            }
+            progressDialog.dismiss();
+
+
+
+
 
         }
+
     }
-    }
+}
+////////////////////////////////////////////////////////////////////////////////////
 
 
 
 
 
+
+//    private List<lst> itemsList = new ArrayList<lst>();
+//    private RecyclerViewAdapter adapter2;
+//
+//    private RecyclerView listview;
+//    private MyAdapter adapter;
+//    RecyclerView recyclerview;
+//
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_map);
+
+//        recyclerview = findViewById(R.id.recycler);
+//
+//        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        recyclerview.setLayoutManager(linearLayoutManager);
+//
+//        recyclerview.setAdapter(adapter);
+//        Set<String> noti_set = PreferenceManager.getDefaultSharedPreferences(this).getStringSet("noti_set", new HashSet<String>());
+//        for (String noti : noti_set) {
+//            String[] notification = noti.split("---");
+//            String title = notification[0];
+//            String msg = notification[1];
+//            lst ls = new lst();
+//            ls.setMsg(msg);
+//            ls.setTitle(title);
+//            itemsList.add(ls);
+//            adapter.notifyDataSetChanged();
+
+//----------------------
+// 파이어베이스 에서 데이터를 가져 옴
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // 부모가 User 인데 부모 그대로 가져오면 User 각각의 데이터 이니까 자식으로 가져와서 담아줌
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+//
+//                    User user = snapshot.getValue(User.class);
+//                    user.User = snapshot.getKey();
+//                    Log.i("id", user.User);
+//                    Log.i("Userid", user.getUserid());
+//                    Log.i("UserAge", user.getUserage());
+//
+//                    userList.add(user);
+//                }
+//
+//                //어뎁터한테 데이터 넣어줬다고 알려줌 (안하면 화면에 안나온다)
+////                adapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.w("MainActivity", "loadPost:onCancelled", databaseError.toException());
+//            }
+//        });

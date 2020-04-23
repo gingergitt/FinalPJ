@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appver2.CheckOutActivity;
 import com.example.appver2.DriveActivity;
 import com.example.appver2.MainActivity;
+import com.example.appver2.MapActivity;
 import com.example.appver2.R;
 import com.example.appver2.RegisterActivity;
 import com.example.appver2.SaveSharedPreference;
@@ -57,11 +58,12 @@ public class LoginActivity extends AppCompatActivity {
     // UI references.
     private ImageView logo;
     public static EditText idbt;
-    private static EditText pwdbt;
+    public static EditText pwdbt;
     String sidbt, spwdbt;
     Button loginbt, regibt;
     ProgressBar loading;
     ProgressDialog progressDialog;
+    Intent intent;
 
 
 
@@ -72,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-       idbt = findViewById(R.id.idbt);
+         idbt = findViewById(R.id.idbt);
         pwdbt = findViewById(R.id.pwdbt);
         logo = findViewById(R.id.logo);
         loginbt = findViewById(R.id.loginbt);
@@ -88,12 +90,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 Log.d("---","login");
                 String id = idbt.getText().toString();
-//                //----
-//                Intent intent = new Intent(LoginActivity.this, CheckOutActivity.class);
-//                intent.putExtra("id", id);
-//                startActivity(intent);
-//                //-----
-
                 String pwd = pwdbt.getText().toString();
 
                 if(idbt == null) {
@@ -108,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 LoginTask loginTask = new LoginTask();
                 loginTask.setURL(id,pwd);
+
                 loginTask.execute();
             }
 
@@ -138,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("---------------------","LoginTask http 연결");
             urlstr = "http://70.12.226.146/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
-//            urlstr = "http://172.30.1.31/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+//            urlstr = "http://192.168.0.20/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
 
             Log.d("----------------","usl연결 oK?");
         }
@@ -228,7 +225,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Intent i = new Intent(LoginActivity.this, DriveActivity.class);
-                        i.putExtra("id",idbt.getText().toString());
+                        String userid = idbt.getText().toString();
+                        String userpwd = pwdbt.getText().toString();
+                        i.putExtra("id",userid ); /*송신*/
+                        i.putExtra("pwd",userpwd);
+
+
+
                         startActivity(i);
                         finish();
 
