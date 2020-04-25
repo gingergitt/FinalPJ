@@ -190,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
                         buffer.append(str);
                     }
                     receiveMsg = buffer.toString();
-                    Log.d("---------","에러~~");
+                    Log.d("---------","receiveMsg OK");
                 } else {
                     Log.i("통신 결과", conn.getResponseCode() + "에러");
                     // 통신이 실패했을 때 실패한 이유를 알기 위해 로그를 찍습니다.
@@ -202,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Log.d("---------","receiveMsg="+receiveMsg);
+            Log.d("---------","receiveMsg="+receiveMsg.trim());
 //            Toast.makeText(getApplicationContext() ,"회원가입완료?",Toast.LENGTH_LONG).show();
             return receiveMsg;
         }
@@ -227,7 +227,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
 
 
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent i = new Intent(LoginActivity.this, DriveActivity.class);
                         String userid = idbt.getText().toString();
                         String userpwd = pwdbt.getText().toString();
                         i.putExtra("id",userid ); /*송신*/

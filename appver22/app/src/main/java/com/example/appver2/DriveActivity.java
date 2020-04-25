@@ -72,6 +72,16 @@ public class DriveActivity extends AppCompatActivity {
 
 
 
+
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(DriveActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }
+
+        });
+
 //
 //        DriveStart.setOnClickListener(new ImageView.OnClickListener(){
 //

@@ -35,6 +35,7 @@ import static com.example.appver2.ui.login.LoginActivity.pwdbt;
 
 public class MapActivity extends AppCompatActivity {
 
+
         private RecyclerView mVerticalView;
         private VerticalAdapter mAdapter;
         private LinearLayoutManager mLayoutManager;

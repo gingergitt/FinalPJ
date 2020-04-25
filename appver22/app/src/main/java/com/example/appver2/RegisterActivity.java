@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
          publicad = "N";
          economy = "N";
 
-        adcategoryno = "3";
+        adcategoryno = "11";
 // ---------------------------------------------------------------------------------------------------------
         final RadioGroup genderGroup = (RadioGroup) findViewById(R.id.genderGroup);
         final int genderGroupID = genderGroup.getCheckedRadioButtonId();
