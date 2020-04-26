@@ -7,7 +7,7 @@ LoginDB loginDB = LoginDB.getInstance();
 	
    String id = request.getParameter("id");
    String pwd = request.getParameter("pwd");
-   System.out.println(id);
+   System.out.println(id);	
 	System.out.println(pwd);
    
 	String result= loginDB.loginnDB(id,pwd);
@@ -21,23 +21,12 @@ LoginDB loginDB = LoginDB.getInstance();
  	if(result.equals("YY")) {
  		System.out.println("Login Success");
 
- 		out.println("1") ;
+ 		out.print("1") ;
  		
  	}else {
  		System.out.println("Login Fail");
- 		out.println("0");
+ 		out.print("0");
  	}
 
  	 
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
 %>

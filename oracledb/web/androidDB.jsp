@@ -34,7 +34,10 @@
  	System.out.println(gender);
  	System.out.println(phone);
  	System.out.println(email);
+ 	System.out.println(address);
  	System.out.println(agree);
+ 	System.out.println(adcategoryno);
+ 	System.out.println(living+" "+food+" "+fashion+" "+culture+" "+beauty+" "+pet+" "+sport+" "+publicad+" "+economy);
  	System.out.println(result);
  	
 	

@@ -6,21 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoginDB {
-	private static LoginDB instance = new LoginDB();
+public class CardLoginDB {
+	private static CardLoginDB instance = new CardLoginDB();
 
-	public static LoginDB getInstance() {
+	public static CardLoginDB getInstance() {
 		return instance;
 	}
 
-	public LoginDB() {
+	public CardLoginDB() {
 	}
 
 	// oracle ∞Ë¡§
 //	String jdbcUrl = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
 //	String jdbcUrl = "jdbc:oracle:thin:@70.12.226.146:1521:xe";
 	String jdbcUrl = "jdbc:oracle:thin:@192.168.1.162:1521:xe";
-
 
 	String userId = "NY";
 	String userPw = "NY";
@@ -35,30 +34,27 @@ public class LoginDB {
 	String sql = "";
 	String result = "";
 
-	public String loginnDB(String id, String pwd) {
+	public String cardloginnDB(String id) {
 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(jdbcUrl, userId, userPw);
 
-			sql = "SELECT * FROM USERS WHERE USERID =? AND USERPWD =?";
+			sql = "SELECT * FROM CARD WHERE USERID =?";
 		
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
-			pstmt.setString(2, pwd);
+			
 			rs = pstmt.executeQuery();
 //age gender phone email agree ++ address,adcategorynum
 			if (rs.next()) {
-		 
-				int age = Integer.parseInt(rs.getString("userage"));
-				String gender = rs.getString("usergender");
-				String phone = rs.getString("userphone");
-				String email = rs.getString("useremail");
-				String address = rs.getString("useraddr");
-				String agree = rs.getString("useragree");
-				int adcategoryno = Integer.parseInt(rs.getString("adcategoryno"));
+				String cardno = rs.getString("cardno");
+				String cardname = rs.getString("cardname");
+				String cardagency = rs.getString("cardagency");
 				
+				
+			
 				return "YY";
 				
 //				if (rs.getString("userid") != null && rs.getString("userpwd") == pwd) {
