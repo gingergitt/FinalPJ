@@ -71,7 +71,6 @@ public class PaymentFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
         mVerticalView.setLayoutManager(layoutManager);
-      //  mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         mAdapter = new VerticalAdapter();
         mAdapter.setData(data);

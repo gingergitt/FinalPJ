@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -168,6 +169,7 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
         String cardagency = String.valueOf(cardAgency);
 
 
+
         if (TextUtils.isEmpty(cardName)) {
             Toast.makeText(CheckOutActivity.this, "Enter Valid Name", Toast.LENGTH_SHORT).show();
         }else if (TextUtils.isEmpty(cardAgency)  ) {
@@ -180,8 +182,8 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
             Toast.makeText(CheckOutActivity.this, "Enter valid security number", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(CheckOutActivity.this, "Your card is added", Toast.LENGTH_SHORT).show();
-                  Toast.makeText(CheckOutActivity.this, "card Agency:"+cardAgency+"cardName"+cardName+"'s Info:"+"\n"+"Card Number:"+cardNumber+"\n"+"card cvv:"+cardCVV+"\n"+
-                    "card validity:"+cardValidity,Toast.LENGTH_LONG).show();
+//                  Toast.makeText(CheckOutActivity.this, "card Agency:"+cardAgency+"cardName"+cardName+"'s Info:"+"\n"+"Card Number:"+cardNumber+"\n"+"card cvv:"+cardCVV+"\n"+
+//                    "card validity:"+cardValidity,Toast.LENGTH_LONG).show();
 
 
             //2초후 main 이동, 값 받아오기
@@ -190,6 +192,16 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
             @Override
             public void run() {
                 Intent i = new Intent(CheckOutActivity.this, MainActivity.class);
+
+
+                //menufragment로 값 던지기
+//                MenuFragment menuFragment = new MenuFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("cardname",cardname);
+//                bundle.putString("cardAgency",cardagency);
+//
+//                menufragment.setArguments(bundle);
+
 
                 i.putExtra("cardname",cardName);
                 i.putExtra("cardAgency",cardAgency);
@@ -295,11 +307,11 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
             Log.d("---------------------","CardPayment AsyncTask 연결 ");
 
 
-            urlstr2 = "http://70.12.226.146/oracledb/androidCard.jsp?cardno="+cardno+"&cardname="+cardname
-                    +"&id="+id+"&cardagency="+cardagency;
-//
-//            urlstr2 = "http://172.30.1.31/oracledb/androidCard.jsp?cardno="+cardno+"&cardname="+cardname
+//            urlstr2 = "http://70.12.226.146/oracledb/androidCard.jsp?cardno="+cardno+"&cardname="+cardname
 //                    +"&id="+id+"&cardagency="+cardagency;
+//
+            urlstr2 = "http://192.168.0.11/oracledb/androidCard.jsp?cardno="+cardno+"&cardname="+cardname
+                    +"&id="+id+"&cardagency="+cardagency;
             Log.d("----------------","usl연결확인되었습니다.");
         }
 
@@ -351,11 +363,16 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
             if(s.trim().equals("11")) {
                 Toast.makeText(CheckOutActivity.this, "카드정보를 성공적으로 등록했습니다.", Toast.LENGTH_SHORT).show();
 
+
+                //바로 fragment 띄우려면?
+//                Intent i = new Intent(CheckOutActivity.this,MainActivity.class);
+//                startActivity(i);
+
                 //select cardno from card where userid = id01?
             }else if(s.trim().equals("00")){
                 Log.d("=======","s=0 :"+s);
                 Toast.makeText(CheckOutActivity.this,"이미 존재하거나 잘못된 카드정보 입니다."+"\n"+"다시 시도하세요.", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(CheckOutActivity.this,DriveActivity.class);
+                Intent i = new Intent(CheckOutActivity.this,CheckOutActivity.class);
 //                i.putExtra("id",id);
                 startActivity(i);
 

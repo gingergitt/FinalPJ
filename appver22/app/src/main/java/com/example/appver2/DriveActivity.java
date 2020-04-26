@@ -38,8 +38,8 @@ public class DriveActivity extends AppCompatActivity {
 
 
 
-            button5 = findViewById(R.id.button5);
-            button6 = findViewById(R.id.button6);
+            button5 = this.findViewById(R.id.button5);
+            button6 = this.findViewById(R.id.button6);
             Intent i = getIntent();
             String id= i.getExtras().getString("id");
             msg = new Msg(id, "1",null);
@@ -56,10 +56,11 @@ public class DriveActivity extends AppCompatActivity {
                     Log.d("--------","setOnClickListener");
                     if(id !=null ){
                         if(clicks == true) {
-                            new ConnectThread("70.12.225.143", 8888).start(); //Thread시작
 
                             Toast.makeText(getApplicationContext(),"1번째클릭",Toast.LENGTH_SHORT).show();
                             Log.d("--------","setOnClickListener");
+                            new ConnectThread("70.12.225.143", 8888).start(); //Thread시작
+
                             clicks=false;
                         } else {
                             Toast.makeText(getApplicationContext(),"2번째클릭",Toast.LENGTH_SHORT).show();

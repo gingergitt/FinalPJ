@@ -27,14 +27,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appver2.CheckOutActivity;
 import com.example.appver2.DriveActivity;
 import com.example.appver2.MainActivity;
+import com.example.appver2.MainFragment;
 import com.example.appver2.MapActivity;
 import com.example.appver2.R;
 import com.example.appver2.RegisterActivity;
 import com.example.appver2.SaveSharedPreference;
 
-
-import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,12 +42,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-//필요기능
-//1: id, pwd미입력시 id를 입력하세요! 토스트 띄우고 task중지
-//2: 자동로그인
-//3: ui
-//4: 로그인 시 00님 환영합니다.
-// 순서 : 메인로고 (onPreExecute) -> 로그인 액티비티 -> 성공시 메인 or 레지스터 화면 -> 레지스터 화면에서 가입 성공 시 메인 -> 메인 구상하기 .
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -92,6 +84,11 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("---","login");
                 String id = idbt.getText().toString();
                 String pwd = pwdbt.getText().toString();
+//                String idbt = "admin";
+//                String pwdbt = "admin";
+//                String id = "admin";
+//                String pwd = "admin";
+
 
                 if(idbt == null) {
                     Toast.makeText(getApplicationContext(),"id를 입력해주세요.",Toast.LENGTH_SHORT).show();
@@ -112,19 +109,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
-//        regibt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent =
-//                        new Intent(getApplicationContext(),
-//                                MainActivity.class);
-//
-//                startActivity(intent);
-//            }
-//        });
-
-
     }
 
     public class LoginTask extends AsyncTask<String, Void, String> {
@@ -134,9 +118,9 @@ public class LoginActivity extends AppCompatActivity {
 
         public  void setURL(String id, String pwd) {
             Log.d("---------------------","LoginTask http 연결");
-            urlstr = "http://70.12.226.146/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
+//            urlstr = "http://70.12.226.146/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
-//            urlstr = "http://192.168.0.20/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+            urlstr = "http://192.168.0.11/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
             Log.d("----------------","usl연결 oK?");
         }
@@ -173,15 +157,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 conn.setDoInput(true);
                 conn.connect();
-
-//                /* 안드로이드 -> 서버 파라메터값 전달 */
-//                OutputStream outs = conn.getOutputStream();
-//                outs.write(urlstr.getBytes("UTF-8"));
-//                outs.flush();
-//                outs.close();
+                Log.d("-----------","connect 확인하기1 ");
 
 
                 if (conn.getResponseCode() == conn.HTTP_OK) {
+                    Log.d("-----------","connect 확인하기2 ");
                     InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
                     BufferedReader reader = new BufferedReader(tmp);
                     StringBuffer buffer = new StringBuffer();
@@ -190,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                         buffer.append(str);
                     }
                     receiveMsg = buffer.toString();
-                    Log.d("---------","receiveMsg OK");
+                    Log.d("---------","receiveMsg 확인="+receiveMsg);
                 } else {
                     Log.i("통신 결과", conn.getResponseCode() + "에러");
                     // 통신이 실패했을 때 실패한 이유를 알기 위해 로그를 찍습니다.
@@ -203,7 +183,6 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             Log.d("---------","receiveMsg="+receiveMsg.trim());
-//            Toast.makeText(getApplicationContext() ,"회원가입완료?",Toast.LENGTH_LONG).show();
             return receiveMsg;
         }
 
@@ -227,11 +206,14 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
 
 
-                        Intent i = new Intent(LoginActivity.this, DriveActivity.class);
+//                        Intent i = new Intent(LoginActivity.this, DriveActivity.class);
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         String userid = idbt.getText().toString();
                         String userpwd = pwdbt.getText().toString();
                         i.putExtra("id",userid ); /*송신*/
                         i.putExtra("pwd",userpwd);
+                        Log.d("--------","id="+userid);
+                        Log.d("--------","pwd="+userpwd);
 
 
 

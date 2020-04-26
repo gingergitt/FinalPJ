@@ -1,29 +1,28 @@
 package com.example.appver2;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.appver2.ui.login.LoginActivity;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,67 +31,79 @@ import java.util.ArrayList;
 import static com.example.appver2.ui.login.LoginActivity.idbt;
 import static com.example.appver2.ui.login.LoginActivity.pwdbt;
 
+public class MenuFragment extends Fragment {
+    //
+    // fragment_main.xml 파일과 인플레이션으로 연결해주는것을 메모리 객체화를 시켜주어야한다
+    MainActivity activity;
+    private RecyclerView mVerticalView;
+    private VerticalAdapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
 
-public class MapActivity extends AppCompatActivity {
-
-
-        private RecyclerView mVerticalView;
-        private VerticalAdapter mAdapter;
-        private LinearLayoutManager mLayoutManager;
-
-        private int MAX_ITEM_COUNT = 5;
-        ArrayList<VerticalData> data = new ArrayList<>();
-
-
-        ProgressBar loading;
-        ProgressDialog progressDialog;
+    private int MAX_ITEM_COUNT = 5;
+    ArrayList<VerticalData> data = new ArrayList<>();
 
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_map);
+    ProgressBar loading;
+    ProgressDialog progressDialog;
 
-            // RecyclerView binding
-            mVerticalView = (RecyclerView) findViewById(R.id.vertical_list);
-            progressDialog = new ProgressDialog(this);
 
-            // init Data
 //
-//            ArrayList<ImageView> img = new ArrayList<>();
+//    @Override
+//    public void onAttach(@NonNull Context context) {
+//        super.onAttach(context);
 //
-//
-//            int i = 0;
-//            while (i < MAX_ITEM_COUNT) {
-//                if(i==0){
-//                    data.add(new VerticalData(R.drawable.registercard, i+"번째 데이터"));
-//                }else if(i==1){
-//                    data.add(new VerticalData(R.drawable.hana, i+"번째 데이터"));
-//                }
-//                else if(i==2){
-//                    data.add(new VerticalData(R.drawable.shinhan, i+"번째 데이터"));
-//                }else if(i==3){
-//                    data.add(new VerticalData(R.drawable.woori, i+"번째 데이터"));
-//                }else if(i==4){
-//                    data.add(new VerticalData(R.drawable.ibk, i+"번째 데이터"));
-//                }
-//                i++;
-//            }
+//        activity = (MainActivity)getActivity();
+//    }
 
-            // init LayoutManager
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // 인플레이션이 가능하다, container 이쪽으로 붙여달라, fragment_main을
+        ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_menu,container,false);
+        // rootview가 플래그먼트 화면으로 보이게 된다. 부분화면을 보여주고자하는 틀로 생각하면 된다.
+
+//        Button button2 = (Button) rootview.findViewById(R.id.button2);
+
+        // RecyclerView binding
+        Bundle extra = this.getArguments();
+        if(extra != null) {
+            extra = getArguments();
+            String cardname = extra.getString("cardname");
+            String cardagency = extra.getString("cardagency");
 
 
-            Intent intent = getIntent(); /*데이터 수신*/
-            String id = idbt.getText().toString(); /*String형*/
-            String pwd = pwdbt.getText().toString(); /*int형*/
-            CardMatchTask cardmatchtask = new CardMatchTask();
-            cardmatchtask.setURL(id,pwd);
-            cardmatchtask.setURL3(id);
-            cardmatchtask.execute();
+            Toast.makeText(getActivity(),cardname+cardagency,Toast.LENGTH_SHORT).show();
 
         }
 
-// Card 등록 여부 확인 Task 실행 ----------------------------------------------------------------------
+
+
+        mVerticalView = (RecyclerView) rootview.findViewById(R.id.vertical_list);
+        progressDialog = new ProgressDialog(getActivity());
+
+        Intent intent = getActivity().getIntent(); /*데이터 수신*/
+        String id = idbt.getText().toString(); /*String형*/
+        String pwd = pwdbt.getText().toString(); /*int형*/
+//        String id = "admin";
+//        String pwd = "admin";
+
+       CardMatchTask cardmatchtask = new CardMatchTask();
+        cardmatchtask.setURL(id,pwd);
+        cardmatchtask.setURL3(id);
+        cardmatchtask.execute();
+
+//        button2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                activity.onFragmentChange(0);
+//            }
+//        });
+
+
+        return rootview;
+    }
+
+    // Card 등록 여부 확인 Task 실행 ----------------------------------------------------------------------
 
     public class CardMatchTask extends AsyncTask<String, Void, String> {
         private String receiveMsg;
@@ -100,27 +111,29 @@ public class MapActivity extends AppCompatActivity {
 
 
         public  void setURL(String id, String pwd) {
-            Log.d("---------------------","CardLoginTask http 연결");
+            Log.d("---------------------","LoginTask http 연결");
 //            urlstr = "http://70.12.226.146/oracledb/androidCardLogin.jsp?id="+id+"&pwd"+pwd;
 
-            urlstr = "http://192.168.46.113/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+            urlstr = "http://192.168.0.11/oracledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
 
             Log.d("----------------","usl연결 oK?");
         }
 
-            public  void setURL2(String id, String pwd) {
-                Log.d("---------------------","LoginTask http 연결");
+        public  void setURL2(String id, String pwd) {
+            Log.d("---------------------","LoginTask http 연결");
 //                urlstr = "http://70.12.226.146/oracledb/androidCard.jsp?id="+id+"&pwd"+pwd;
 
-                urlstr = "http://192.168.46.113/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
-                Log.d("----------------","usl연결 oK?");
-            }
+            urlstr = "http://192.168.0.11/oracledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+            Log.d("----------------","usl연결 oK?");
+        }
 
         public  void setURL3(String id) {
-            Log.d("---------------------","LoginTask http 연결");
+
+            Log.d("---------------------","CardLoginTask http 연결");
+//
 //            urlstr3 = "http://70.12.226.146/oracledb/androidCardPlus.jsp?id="+id;
 
-            urlstr = "http://192.168.46.113/orcledb/androidLogin.jsp?id="+id;
+            urlstr = "http://192.168.0.11/oracledb/androidCardLogin.jsp?id="+id;
             Log.d("----------------","usl연결 oK?");
         }
 
@@ -188,17 +201,30 @@ public class MapActivity extends AppCompatActivity {
         @Override //끝날때
         protected void onPostExecute(String s) {
 
+
             Log.d("=======","s="+s.trim());
 
             if(s.trim().equals("1")) {
                 Log.d("=======","s=1 :"+s.trim());
 
+                Toast.makeText(getActivity(),"등록된 카드가 있습니다. 카드 관리 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+
                 Handler hand = new Handler();
                 hand.postDelayed(new Runnable() {
+
+
 
                     @Override
                     public void run() {
 //                        Intent i = new Intent(MapActivity.this, MainActivity.class);
+                        Intent i = new Intent(getActivity(),MainActivity.class);
+                        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~intent값 받아오기
+
+
+
+                        i = getActivity().getIntent();
+                        String cardno= i.getExtras().getString("cardno");
+
 //                        //main으로 옮겨진 상태?
                         ArrayList<VerticalData> data = new ArrayList<>();
                         try {
@@ -207,11 +233,11 @@ public class MapActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        int a = 0;
+                        int a=0;
 
                         while (a < MAX_ITEM_COUNT) {
                             if(a==0){
-                                data.add(new VerticalData(R.drawable.registercard, a+"번째 데이터"));
+                                data.add(new VerticalData(R.drawable.registercard, cardno+"님의카드"));
                             }else if(a==1){
                                 data.add(new VerticalData(R.drawable.hana, a+"번째 데이터"));
                             }
@@ -225,7 +251,7 @@ public class MapActivity extends AppCompatActivity {
                             a++;
                         }
                         // 기본값이 VERTICAL
-                        mLayoutManager = new LinearLayoutManager(MapActivity.this);
+                        mLayoutManager = new LinearLayoutManager(getActivity());
                         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
                         // setLayoutManager
@@ -252,7 +278,7 @@ public class MapActivity extends AppCompatActivity {
 
             }else if(s.trim().equals("0")){
                 Log.d("=======","s=0 :"+s.trim());
-                Toast.makeText(MapActivity.this,"등록된 카드가 없습니다. 카드등록페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"등록된 카드가 없습니다. 카드등록페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
 
 
                 Handler hand = new Handler();
@@ -261,13 +287,13 @@ public class MapActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        Intent i = new Intent(MapActivity.this, CheckOutActivity.class);
+                        Intent i = new Intent(getActivity(), CheckOutActivity.class);
 
 
                         ArrayList<VerticalData> data = new ArrayList<>();
 
                         startActivity(i);
-                        finish();
+//                        finish();
 
 
                     }
@@ -283,67 +309,5 @@ public class MapActivity extends AppCompatActivity {
 
     }
 }
-////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
-
-//    private List<lst> itemsList = new ArrayList<lst>();
-//    private RecyclerViewAdapter adapter2;
-//
-//    private RecyclerView listview;
-//    private MyAdapter adapter;
-//    RecyclerView recyclerview;
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_map);
-
-//        recyclerview = findViewById(R.id.recycler);
-//
-//        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        recyclerview.setLayoutManager(linearLayoutManager);
-//
-//        recyclerview.setAdapter(adapter);
-//        Set<String> noti_set = PreferenceManager.getDefaultSharedPreferences(this).getStringSet("noti_set", new HashSet<String>());
-//        for (String noti : noti_set) {
-//            String[] notification = noti.split("---");
-//            String title = notification[0];
-//            String msg = notification[1];
-//            lst ls = new lst();
-//            ls.setMsg(msg);
-//            ls.setTitle(title);
-//            itemsList.add(ls);
-//            adapter.notifyDataSetChanged();
-
-//----------------------
-// 파이어베이스 에서 데이터를 가져 옴
-//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // 부모가 User 인데 부모 그대로 가져오면 User 각각의 데이터 이니까 자식으로 가져와서 담아줌
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-//
-//                    User user = snapshot.getValue(User.class);
-//                    user.User = snapshot.getKey();
-//                    Log.i("id", user.User);
-//                    Log.i("Userid", user.getUserid());
-//                    Log.i("UserAge", user.getUserage());
-//
-//                    userList.add(user);
-//                }
-//
-//                //어뎁터한테 데이터 넣어줬다고 알려줌 (안하면 화면에 안나온다)
-////                adapter.notifyDataSetChanged();
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.w("MainActivity", "loadPost:onCancelled", databaseError.toException());
-//            }
-//        });
