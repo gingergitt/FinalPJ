@@ -9,9 +9,10 @@
 
     <androidx.cardview.widget.CardView
 
-    card_view:cardCornerRadius="1dp"
-        card_view:elevation="4dp"
-        style="@style/CardStyle">
+        style="@style/CardStyle"
+        card_view:cardBackgroundColor="#292D38"
+        card_view:cardCornerRadius="1dp"
+        card_view:elevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,15 +21,18 @@
 
             <TextView
                 style="@style/CardLabel"
-                android:text="@string/card_holders_name"/>
+                android:text="@string/card_holders_name" />
 
             <com.example.appver2.Utils.CreditCardEditText
-                style="@style/CardInput"
                 android:id="@+id/et_name"
+                style="@style/CardInput"
+                android:fontFamily="sans-serif-light"
                 android:hint="Name on card"
                 android:inputType="text|textNoSuggestions"
                 android:maxLength="22"
-                android:privateImeOptions="nm"/>
+                android:privateImeOptions="nm"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
 
         </LinearLayout>
 

@@ -48,4 +48,9 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+<!--    <style name="SplashTheme" parent="@android:style/Theme.Light.NoTitleBar">-->
+<!--        <item name="android:windowBackground">@drawable/logo</item>-->
+
+<!--    </style>-->
+
 </resources>

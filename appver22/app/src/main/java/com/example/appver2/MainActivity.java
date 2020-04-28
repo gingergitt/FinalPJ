@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
     Sender sender;
     Sender2 sender2;
     ImageView DriveStart;
-    Button button5, button6;
+    ImageButton button5, button6;
+    Button button , button2;
     Msg msg;
     Msg msg2;
     MainFragment fragment1;
@@ -50,13 +52,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         container = (FrameLayout) findViewById(R.id.container);
 
-        DriveStart = (ImageView) findViewById(R.id.DriveStart);
+
         fragment1 = new MainFragment();
         fragment2 = new MenuFragment();
 
 
+        //menufragment로 값 던지기
+        Intent intent = getIntent();
+        String cardname = intent.getStringExtra("cardname");
+        String cardagency = intent.getStringExtra("cardagency");
+
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment2).commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("cardname",cardname);
+        bundle.putString("cardAgency",cardagency);
+
+      fragment2.setArguments(bundle);
+
+
+
         button5 = findViewById(R.id.button5);
-        button6 = findViewById(R.id.button6);
+
             Intent i = getIntent();
             String id= i.getExtras().getString("id");
 //        String id = "admin";
@@ -91,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                 // 꼭 commit 를 해주어야 실행이 된다. 플래그먼트 매니저가 플래그먼트를 담당 한다.
                 // transaction 기반으로 한다는것을 잊지 말것.
                 // add라고해서 추가를 해주지 않고 replace를 써주는데, 기존에 있던것들을 대체 해 주게 된다.
+                button5.setVisibility(view.INVISIBLE);
+//                button6.setVisibility(view.INVISIBLE);
+//                DriveStart.setVisibility(view.INVISIBLE);
 
 
             }

@@ -103,7 +103,7 @@ public class MapActivity extends AppCompatActivity {
             Log.d("---------------------","CardLoginTask http 연결");
 //            urlstr = "http://70.12.226.146/oracledb/androidCardLogin.jsp?id="+id+"&pwd"+pwd;
 
-            urlstr = "http://192.168.46.113/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+            urlstr = "http://192.168.1.162/oracledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
 
             Log.d("----------------","usl연결 oK?");
         }
@@ -112,7 +112,7 @@ public class MapActivity extends AppCompatActivity {
                 Log.d("---------------------","LoginTask http 연결");
 //                urlstr = "http://70.12.226.146/oracledb/androidCard.jsp?id="+id+"&pwd"+pwd;
 
-                urlstr = "http://192.168.46.113/orcledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
+                urlstr = "http:/192.168.1.162/oracledb/androidLogin.jsp?id="+id+"&pwd"+pwd;
                 Log.d("----------------","usl연결 oK?");
             }
 
@@ -120,7 +120,7 @@ public class MapActivity extends AppCompatActivity {
             Log.d("---------------------","LoginTask http 연결");
 //            urlstr3 = "http://70.12.226.146/oracledb/androidCardPlus.jsp?id="+id;
 
-            urlstr = "http://192.168.46.113/orcledb/androidLogin.jsp?id="+id;
+            urlstr = "http://192.168.1.162/oracledb/androidLogin.jsp?id="+id;
             Log.d("----------------","usl연결 oK?");
         }
 

@@ -97,6 +97,8 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
 
         getFragmentManager().addOnBackStackChangedListener(this);
 
+
+
         //Initializing viewPager
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(4);
@@ -191,27 +193,17 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
              hand.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(CheckOutActivity.this, MainActivity.class);
+                Intent iii = new Intent(CheckOutActivity.this, MainActivity.class);
 
-
-                //menufragment로 값 던지기
-//                MenuFragment menuFragment = new MenuFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putString("cardname",cardname);
-//                bundle.putString("cardAgency",cardagency);
-//
-//                menufragment.setArguments(bundle);
-
-
-                i.putExtra("cardname",cardName);
-                i.putExtra("cardAgency",cardAgency);
-                i.putExtra("cardNumber",cardNumber);
-                i.putExtra("cardCVV",cardCVV);
-                i.putExtra("cardValidity",cardValidity);
-                startActivity(i);
+                iii.putExtra("cardname",cardName);
+                iii.putExtra("cardAgency",cardAgency);
+                iii.putExtra("cardNumber",cardNumber);
+                iii.putExtra("cardCVV",cardCVV);
+                iii.putExtra("cardValidity",cardValidity);
+                startActivity(iii);
                 finish();
             }
-        },2000);
+        },1000);
 
 
         CardTask cardTask = new CardTask();
@@ -221,6 +213,7 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
         cardTask.execute();
 
             Log.d("--------------","cardagency:"+cardAgency+"cardname:"+cardName+"cardnumber:"+cardNumber+"cardcvv:"+cardCVV+"cardvalid:"+cardValidity);
+            Log.d("------------","cardnumber="+cardno+"cardagency="+cardagency);
 
     }
 
@@ -309,8 +302,9 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
 
 //            urlstr2 = "http://70.12.226.146/oracledb/androidCard.jsp?cardno="+cardno+"&cardname="+cardname
 //                    +"&id="+id+"&cardagency="+cardagency;
-//
-            urlstr2 = "http://192.168.0.11/oracledb/androidCard.jsp?cardno="+cardno+"&cardname="+cardname
+
+
+            urlstr2 = "http://192.168.43.198:8088/finalpj/androidCard.jsp?cardno="+cardno+"&cardname="+cardname
                     +"&id="+id+"&cardagency="+cardagency;
             Log.d("----------------","usl연결확인되었습니다.");
         }

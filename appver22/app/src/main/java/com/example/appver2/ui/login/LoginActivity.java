@@ -1,10 +1,13 @@
 package com.example.appver2.ui.login;
 
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -13,16 +16,22 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.CompoundButtonCompat;
 
 import com.example.appver2.CheckOutActivity;
 import com.example.appver2.DriveActivity;
@@ -32,6 +41,7 @@ import com.example.appver2.MapActivity;
 import com.example.appver2.R;
 import com.example.appver2.RegisterActivity;
 import com.example.appver2.SaveSharedPreference;
+import com.example.appver2.SplashActivity;
 
 
 import java.io.BufferedReader;
@@ -59,9 +69,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +76,19 @@ public class LoginActivity extends AppCompatActivity {
 
          idbt = findViewById(R.id.idbt);
         pwdbt = findViewById(R.id.pwdbt);
-        logo = findViewById(R.id.logo);
+//        logo = findViewById(R.id.logo);
         loginbt = findViewById(R.id.loginbt);
         regibt = findViewById(R.id.regibt);
 //        loading =  findViewById(R.id.loading);
         progressDialog = new ProgressDialog(this);
 
 
+
+        //======================================================================================================
+
+
+
+        //-----------------------------------------------------------------------------------------------------------
 
         loginbt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +133,8 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("---------------------","LoginTask http 연결");
 //            urlstr = "http://70.12.226.146/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
-            urlstr = "http://192.168.0.11/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
+//            urlstr = "http://192.168.0.6/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
+            urlstr = "http://192.168.43.198:8088/finalpj/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
             Log.d("----------------","usl연결 oK?");
         }

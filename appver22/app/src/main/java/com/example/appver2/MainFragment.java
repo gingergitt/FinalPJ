@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,17 +33,17 @@ public class MainFragment extends Fragment {
     private Socket clientSocket;
 
 
-Sender sender;
-Sender2 sender2;
+    Sender sender;
+    Sender2 sender2;
 
     Msg msg;
     Msg msg2;
 
     ImageView DriveStart;
-    Button button5, button6;
-
+    ImageButton button5;
+    boolean clicks=true;
     FrameLayout container;
-    String id = "admin";
+//    String id = "admin";
 
 //
 //    @Override
@@ -56,10 +57,12 @@ Sender2 sender2;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // 인플레이션이 가능하다, container 이쪽으로 붙여달라, fragment_main을
         final ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_main,container,false);
-        Button button5 = (Button) rootview.findViewById(R.id.button5);
+        ImageButton button5 = (ImageButton) rootview.findViewById(R.id.button5);
         container = (FrameLayout) rootview.findViewById(R.id.container);
-//        Intent i = getActivity().getIntent();
-//        String id= i.getExtras().getString("id");
+        Intent i = getActivity().getIntent();
+        String id= i.getExtras().getString("id");
+
+
         msg = new Msg(id, "1", null);
         msg2 = new Msg(id, "0", null);
         Log.d("---------id는:", id);
@@ -69,23 +72,27 @@ Sender2 sender2;
             public void onClick(View v) {
 //                MainActivity mainActivity = (MainActivity) getActivity();
 //                mainActivity.onFragmentChanged(0);
-                    boolean clicks=true;
+
                 Log.d("--------", "setOnClickListener");
                 if(id !=null) {
                     Log.d("---------id는:", id);
                     if(clicks == true) {
 
-                            Toast.makeText(getActivity(),"1번째클릭",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"Engine On",Toast.LENGTH_SHORT).show();
                             Log.d("--------","setOnClickListener");
 //                        new ConnectThread("70.12.225.143", 8888).start(); //Thread시작
-                        new ConnectThread("192.168.0.27", 8888).start(); //Thread시작
+//                        new ConnectThread("192.168.0.27", 8888).start(); //Thread시작
+                        new ConnectThread("192.168.43.88", 8888).start(); //Thread시작
+                        button5.setImageResource(R.drawable.p_off);
+
 
                         clicks=false;
                         } else {
-                            Toast.makeText(getActivity(),"2번째클릭",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"Engine Off",Toast.LENGTH_SHORT).show();
                             //엔진off (0을 여기서 보내면 시동이 꺼진다.)
 //                            new DisconnectThread("70.12.225.143", 8888).start(); //Thread시작
-                        new DisconnectThread("192.168.0.27", 8888).start(); //Thread시작
+                        button5.setImageResource(R.drawable.p_on);
+                        new DisconnectThread("192.168.43.88", 8888).start(); //Thread시작
 
                     }
 

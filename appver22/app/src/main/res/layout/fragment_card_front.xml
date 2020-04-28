@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="sans-serif"
                 android:gravity="right"
                 android:paddingRight="10dp"
                 android:text="@string/card_agnecy"

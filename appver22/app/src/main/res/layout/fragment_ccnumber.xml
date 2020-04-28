@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,9 +7,10 @@
     tools:context="com.example.appver2.CCFragment.CCNumberFragment">
 
     <androidx.cardview.widget.CardView
+        style="@style/CardStyle"
+        app:cardBackgroundColor="#292D38"
         card_view:cardCornerRadius="1dp"
-        card_view:elevation="4dp"
-        style="@style/CardStyle">
+        card_view:elevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,14 +19,17 @@
 
             <TextView
                 style="@style/CardLabel"
-                android:text="@string/card_number"/>
+                android:text="@string/card_number" />
 
             <com.example.appver2.Utils.CreditCardEditText
-                style="@style/CardInput"
                 android:id="@+id/et_number"
+                style="@style/CardInput"
+                android:fontFamily="sans-serif-light"
                 android:hint="Card Number"
                 android:inputType="number"
-                android:maxLength="19"/>
+                android:maxLength="19"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
 
         </LinearLayout>
 

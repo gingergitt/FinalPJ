@@ -21,10 +21,12 @@
 
 
     <Button
-        style="@style/ButtonStyle"
-        android:text="NEXT"
         android:id="@+id/btnNext"
-        android:layout_alignParentBottom="true"/>
+        style="@style/ButtonStyle"
+        android:layout_alignParentBottom="true"
+        android:background="#292D38"
+        android:fontFamily="sans-serif-black"
+        android:text="NEXT" />
 
 
 
