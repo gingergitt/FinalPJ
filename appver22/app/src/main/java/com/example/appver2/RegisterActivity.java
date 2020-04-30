@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
          publicad = "N";
          economy = "N";
 
-        adcategoryno = "15";
+        adcategoryno = "16";
 // ---------------------------------------------------------------------------------------------------------
         final RadioGroup genderGroup = (RadioGroup) findViewById(R.id.genderGroup);
         final int genderGroupID = genderGroup.getCheckedRadioButtonId();
@@ -257,7 +257,7 @@ public class RegisterActivity extends AppCompatActivity {
         public void setURL (String id, String pwd, int age,String gender,  String phone, String email, String address,
                             String agree,int adcategoryno, String living,String food,String fashion,String culture,String beauty,String pet,String sport,String publicad,String economy) {
 
-            urlstr = "http://192.168.43.198:8088/finalpj/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
+            urlstr = "http://70.12.231.175:8088/finalpj/androidDB.jsp?id=" +id + "&pwd=" + pwd + "&age=" + age + "&gender=" +
                     gender + "&phone=" + phone + "&email=" + email +  "&address=" + address +"&agree=" + agree +"&adcategoryno=" + adcategoryno+"&living="
                     + living +"&food=" + food +"&fashion=" + fashion +"&culture=" + culture +"&beauty=" + beauty +"&pet=" + pet +"&sport=" + sport+ "&publicad="
                     + publicad+ "&economy=" + economy;

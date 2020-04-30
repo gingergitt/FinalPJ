@@ -134,7 +134,8 @@ public class LoginActivity extends AppCompatActivity {
 //            urlstr = "http://70.12.226.146/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
 //            urlstr = "http://192.168.0.6/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
-            urlstr = "http://192.168.43.198:8088/finalpj/androidLogin.jsp?id="+id+"&pwd="+pwd;
+//            urlstr = "http://192.168.43.198:8088/finalpj/androidLogin.jsp?id="+id+"&pwd="+pwd;
+            urlstr = "http://70.12.231.175:8088/finalpj/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
             Log.d("----------------","usl연결 oK?");
         }
@@ -211,7 +212,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(SaveSharedPreference.getUserName(LoginActivity.this).length() == 0)
                     SaveSharedPreference.setUserName(LoginActivity.this, idbt.getText().toString());
                 Toast.makeText(LoginActivity.this, idbt.getText().toString()+"님 환영합니다.", Toast.LENGTH_SHORT).show();
-                Toast.makeText(LoginActivity.this,"메인페이지로 이동합니다!", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this,"메인페이지로 이동합니다!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginActivity.this,"등록된 카드가 없습니다. 카드등록 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
 
                 //2초후 메인페이지 이동
                 Handler hand = new Handler();

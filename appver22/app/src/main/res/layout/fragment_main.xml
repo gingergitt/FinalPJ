@@ -180,11 +180,11 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="26dp"
+                    android:layout_height="38dp"
                     android:layout_weight="2"
                     android:paddingTop="10dp"
-                    app:srcCompat="@android:drawable/ic_lock_idle_lock" />
+                    app:srcCompat="@drawable/emergency" />
 
                 <Button
                     android:id="@+id/button9"
@@ -206,11 +206,11 @@
 
                 <ImageView
                     android:id="@+id/imageView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="37dp"
                     android:layout_weight="2"
-                    android:paddingTop="10dp"
-                    app:srcCompat="@android:drawable/ic_lock_idle_lock" />
+                    android:paddingTop="12dp"
+                    app:srcCompat="@drawable/horn" />
 
                 <Button
                     android:id="@+id/button10"

@@ -304,7 +304,7 @@ public class CheckOutActivity extends FragmentActivity implements FragmentManage
 //                    +"&id="+id+"&cardagency="+cardagency;
 
 
-            urlstr2 = "http://192.168.43.198:8088/finalpj/androidCard.jsp?cardno="+cardno+"&cardname="+cardname
+            urlstr2 = "http://70.12.231.175:8088/finalpj/androidCard.jsp?cardno="+cardno+"&cardname="+cardname
                     +"&id="+id+"&cardagency="+cardagency;
             Log.d("----------------","usl연결확인되었습니다.");
         }

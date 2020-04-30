@@ -64,17 +64,16 @@ public class MainActivity extends AppCompatActivity {
 
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment2).commit();
         Bundle bundle = new Bundle();
-        bundle.putString("cardname",cardname);
-        bundle.putString("cardAgency",cardagency);
+        bundle.putString("cardname", cardname);
+        bundle.putString("cardAgency", cardagency);
 
-      fragment2.setArguments(bundle);
-
+        fragment2.setArguments(bundle);
 
 
         button5 = findViewById(R.id.button5);
 
-            Intent i = getIntent();
-            String id= i.getExtras().getString("id");
+        Intent i = getIntent();
+        String id = i.getExtras().getString("id");
 //        String id = "admin";
         msg = new Msg(id, "1", null);
         msg2 = new Msg(id, "0", null);
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                inflater.inflate(R.layout.fragment_main,container,true);
+                inflater.inflate(R.layout.fragment_main, container, true);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit(); // 여러개의 명을 만들어서 쓴다
                 // 꼭 commit 를 해주어야 실행이 된다. 플래그먼트 매니저가 플래그먼트를 담당 한다.
                 // add라고해서 추가를 해주지 않고 replace를 써주는데, 기존에 있던것들을 대체 해 주게 된다.
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                inflater.inflate(R.layout.fragment_menu,container,false);
+                inflater.inflate(R.layout.fragment_menu, container, false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment2).commit(); // 여러개의 명을 만들어서 쓴다
                 // 꼭 commit 를 해주어야 실행이 된다. 플래그먼트 매니저가 플래그먼트를 담당 한다.
                 // transaction 기반으로 한다는것을 잊지 말것.
@@ -115,34 +114,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//
-//            button5 = findViewById(R.id.button5);
-//            button5.setOnClickListener(new View.OnClickListener() {
-//
-//                //                boolean clicks = true;
-////                //엔진 스타트
-//                @Override
-//                public void onClick(View v) {
-//                    Log.d("--------", "setOnClickListener");
-//                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    inflater.inflate(R.layout.fragment_main,container,true);
-//                    if(id !=null ){
-//                        if(clicks == true) {
-//
-//                            Toast.makeText(getApplicationContext(),"1번째클릭",Toast.LENGTH_SHORT).show();
-//                            Log.d("--------","setOnClickListener");
-//                            new ConnectThread("70.12.225.143", 8888).start(); //Thread시작
-//
-//                            clicks=false;
-//                        } else {
-//                            Toast.makeText(getApplicationContext(),"2번째클릭",Toast.LENGTH_SHORT).show();
-//                            //엔진off (0을 여기서 보내면 시동이 꺼진다.)
-//                            new DisconnectThread("70.12.225.143", 8888).start(); //Thread시작
-//                        }
-//                    }
     }
-//            });
-//        }
 
 
     public void onFragmentChange ( int index){
@@ -154,29 +126,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//            button6.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(MainActivity.this,MainActivity.class);
-//                    startActivity(intent);
-//                }
-//
-//            });
-
-//
-//        DriveStart.setOnClickListener(new ImageView.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View v) {
-//                if(id !=null){
-//                    new ConnectThread("70.12.225.143", 8888).start(); //Thread시작
-//                }
-//            }
-//
-//        });
-//        Log.d("=======","imageview눌림?");
-
-//        }
 
 
 

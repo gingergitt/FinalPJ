@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class MenuFragment extends Fragment {
     private VerticalAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
+    ImageView vertical;
 
     private int MAX_ITEM_COUNT = 5;
     ArrayList<VerticalData> data = new ArrayList<>();
@@ -60,6 +62,7 @@ TextView RecentProduct, RecentPrice;
 
         RecentProduct = rootview.findViewById(R.id.RecentProduct);
         RecentPrice = rootview.findViewById(R.id.RecentPrice);
+        vertical = rootview.findViewById(R.id.vertical_icon);
 
 
 //
@@ -131,7 +134,7 @@ TextView RecentProduct, RecentPrice;
 
 //            urlstr = "http://192.168.0.6/oracledb/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
-            urlstr = "http://192.168.43.198:8088/finalpj/androidLogin.jsp?id="+id+"&pwd="+pwd;
+            urlstr = "http://70.12.231.175:8088/finalpj/androidLogin.jsp?id="+id+"&pwd="+pwd;
 
 
             Log.d("----------------","usl연결 oK?");
@@ -145,7 +148,7 @@ TextView RecentProduct, RecentPrice;
 
 
 
-            urlstr2 = "http://192.168.43.198:8088/finalpj/androidLogin.jsp?id="+id+"&cardname="+cardname+"&cardagency="+cardagency;
+            urlstr2 = "http://70.12.231.175:8088/finalpj/androidLogin.jsp?id="+id+"&cardname="+cardname+"&cardagency="+cardagency;
 
             Log.d("----------------","urlstr2="+urlstr2);
         }
@@ -158,7 +161,7 @@ TextView RecentProduct, RecentPrice;
 //            urlstr3 = "http://192.168.0.6/oracledb/androidCardPlus.jsp?id="+id;
 
 
-            urlstr3 = "http://192.168.43.198:8088/finalpj/androidCardPlus.jsp?id="+id;
+            urlstr3 = "http://70.12.231.175:8088/finalpj/androidCardPlus.jsp?id="+id;
             Log.d("----------------","usl연결 oK?");
         }
 
@@ -261,13 +264,14 @@ TextView RecentProduct, RecentPrice;
                             if (a == 1) {
                                 data.add(new VerticalData(R.drawable.card22, a+ "번째 카드"));
                             } else if (a == 2) {
-                                data.add(new VerticalData(R.drawable.registercard, a + "번째 데이터"));
+
+                                data.add(new VerticalData(R.drawable.registercard, a + "번째 카드"));
                             } else if (a == 3) {
-                                data.add(new VerticalData(R.drawable.registercard, a + "번째 데이터"));
+                                data.add(new VerticalData(R.drawable.registercard, a + "번째 카드"));
                             } else if (a == 4) {
-                                data.add(new VerticalData(R.drawable.registercard, a + "번째 데이터"));
+                                data.add(new VerticalData(R.drawable.registercard, a + "번째 카드"));
                             } else if (a == 5) {
-                                data.add(new VerticalData(R.drawable.registercard, a + "번째 데이터"));
+                                data.add(new VerticalData(R.drawable.registercard, a + "번째 카드"));
                             }
                             a++;
                         }
@@ -356,7 +360,7 @@ TextView RecentProduct, RecentPrice;
         public void setURL4(String id) {
             Log.d("---------------------","Pay history task 연결");
 //            urlstr4 = "http://70.12.226.146/oracledb/androidPayHistory.jsp?id="+id;
-            urlstr4 = "http://192.168.43.198:8088/finalpj/androidPayHistory.jsp?id="+id;
+            urlstr4 = "http://70.12.231.175:8088/finalpj/androidPayHistory.jsp?id="+id;
 //            urlstr4 = "http://192.168.0.6/oracledb/androidPayHistory.jsp?id="+id;
             Log.d("----------------","usl연결--- urlstr4");
 
